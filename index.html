@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rex大叔智能收錄系統 - 完整版</title>
+    <title>Rex大叔自動收錄系統 - 最終版</title>
     <style>
         * {
             margin: 0;
@@ -30,70 +30,77 @@
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 40px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 10px;
         }
         
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
+        .header p {
             font-size: 18px;
-            font-weight: 600;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            opacity: 0.9;
         }
         
-        .tab:hover {
-            background: #e9ecef;
-            color: #667eea;
+        .status-bar {
+            background: #f8f9fa;
+            padding: 15px 40px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .tab.active {
-            color: #667eea;
-            background: white;
-            border-bottom-color: #667eea;
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .tab-content {
-            display: none;
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dc3545;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.connected {
+            background: #28a745;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .main-content {
             padding: 40px;
         }
         
-        .tab-content.active {
-            display: block;
-        }
-        
-        .input-area {
+        .input-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
+            margin-bottom: 30px;
         }
         
-        .left-panel, .right-panel {
+        .panel {
             background: #f8f9fa;
             border-radius: 15px;
             padding: 25px;
         }
         
-        .section-title {
+        .panel-title {
             font-size: 20px;
             font-weight: bold;
             color: #667eea;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         textarea {
@@ -111,19 +118,6 @@
         textarea:focus {
             outline: none;
             border-color: #667eea;
-        }
-        
-        .hint-box {
-            background: #e7f3ff;
-            border-left: 4px solid #0066cc;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 8px;
-        }
-        
-        .hint-box h4 {
-            color: #0066cc;
-            margin-bottom: 10px;
         }
         
         .button-group {
@@ -148,9 +142,14 @@
             color: white;
         }
         
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
         
         .btn-secondary {
@@ -158,155 +157,135 @@
             color: white;
         }
         
-        .result-box {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 2px solid #e9ecef;
-            display: none;
+        .btn-secondary:hover {
+            background: #5a6268;
         }
         
-        .result-box.show {
-            display: block;
+        .result-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            min-height: 200px;
         }
         
         .result-item {
             padding: 15px;
             background: #f8f9fa;
             border-radius: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border-left: 4px solid #667eea;
         }
         
         .result-item h4 {
             color: #667eea;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         
         .result-item p {
             color: #666;
             line-height: 1.6;
+            margin: 5px 0;
         }
         
-        .upload-zone {
-            border: 3px dashed #667eea;
-            border-radius: 15px;
-            padding: 60px 30px;
+        .success {
+            border-left-color: #28a745;
+        }
+        
+        .success h4 {
+            color: #28a745;
+        }
+        
+        .error {
+            border-left-color: #dc3545;
+        }
+        
+        .error h4 {
+            color: #dc3545;
+        }
+        
+        .loading {
             text-align: center;
-            cursor: pointer;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .download-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .download-link {
+            flex: 1;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
             transition: all 0.3s;
         }
         
-        .upload-zone:hover {
-            background: rgba(102, 126, 234, 0.05);
-            border-color: #764ba2;
+        .download-link:hover {
+            background: #218838;
+            transform: translateY(-2px);
         }
         
-        .upload-icon {
-            font-size: 64px;
-            margin-bottom: 15px;
-        }
-        
-        .upload-text {
-            font-size: 18px;
-            color: #667eea;
-            font-weight: 600;
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
-        .api-setup {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 20px;
-            margin-bottom: 20px;
+        .hint-box {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin-top: 15px;
             border-radius: 8px;
         }
         
-        .api-setup h3 {
-            color: #856404;
-            margin-bottom: 15px;
-        }
-        
-        .api-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ffc107;
-            border-radius: 8px;
-            font-size: 14px;
+        .hint-box h4 {
+            color: #0066cc;
             margin-bottom: 10px;
-        }
-        
-        .method-card {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-        
-        .method-card h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-        
-        .method-card .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .badge-best {
-            background: #28a745;
-            color: white;
-        }
-        
-        .badge-good {
-            background: #17a2b8;
-            color: white;
-        }
-        
-        .badge-basic {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .steps {
-            padding-left: 20px;
-        }
-        
-        .steps li {
-            margin-bottom: 10px;
-            line-height: 1.8;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Rex大叔智能收錄系統 V3.0</h1>
-            <p>支援貼上文字 | 上傳檔案 | AI自動分析 | 100%全自動化方案</p>
+            <h1>🚀 Rex大叔自動收錄系統</h1>
+            <p>100%自動化 | Python後端 | AI智能分析</p>
         </div>
         
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab(0)">📝 貼上文字</div>
-            <div class="tab" onclick="switchTab(1)">📤 上傳檔案</div>
-            <div class="tab" onclick="switchTab(2)">🤖 100%自動化方案</div>
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">檢查服務連線中...</span>
+            </div>
+            <div id="stats" style="color: #666;">
+                <span id="totalReports">-</span> 份報告 | 
+                <span id="totalEvents">-</span> 個事件
+            </div>
         </div>
         
-        <!-- Tab 1: 貼上文字 -->
-        <div class="tab-content active">
-            <div class="input-area">
-                <div class="left-panel">
-                    <div class="section-title">📝 貼上Call Memo或研究報告</div>
-                    <textarea id="textInput" placeholder="直接在這裡貼上完整的Call Memo、法說會紀錄或研究報告...
+        <div class="main-content">
+            <div class="input-section">
+                <div class="panel">
+                    <div class="panel-title">
+                        📝 貼上Call Memo或研究報告
+                    </div>
+                    <textarea id="reportInput" placeholder="直接在這裡貼上完整的Call Memo、法說會紀錄或研究報告...
 
 範例格式:
 ☎️元大投顧 蘇子錚
@@ -326,290 +305,189 @@ Call Memo_2356英業達
                     
                     <div class="hint-box">
                         <h4>💡 使用提示:</h4>
-                        <ul>
-                            <li>✓ 直接複製貼上完整報告文字</li>
-                            <li>✓ 支援Call Memo、法說會、研究報告</li>
-                            <li>✓ 不需要任何格式調整</li>
-                            <li>✓ AI自動提取所有關鍵資訊</li>
+                        <ul style="margin-left: 20px; line-height: 2;">
+                            <li>直接複製貼上完整報告文字</li>
+                            <li>支援Call Memo、法說會、研究報告</li>
+                            <li>不需要任何格式調整</li>
+                            <li>AI自動提取所有關鍵資訊</li>
                         </ul>
                     </div>
                     
                     <div class="button-group">
-                        <button class="btn-primary" onclick="analyzeText()">🤖 AI智能分析收錄</button>
-                        <button class="btn-secondary" onclick="clearText()">🔄 清空</button>
+                        <button class="btn-primary" id="analyzeBtn" onclick="analyzeReport()">
+                            🤖 AI智能分析收錄
+                        </button>
+                        <button class="btn-secondary" onclick="clearInput()">
+                            🔄 清空
+                        </button>
                     </div>
                 </div>
                 
-                <div class="right-panel">
-                    <div class="section-title">📊 分析結果</div>
-                    <div id="textResult" class="result-box">
+                <div class="panel">
+                    <div class="panel-title">
+                        📊 分析結果
+                    </div>
+                    <div class="result-section" id="resultSection">
                         <div class="result-item">
                             <h4>等待分析...</h4>
-                            <p>貼上文字後點擊「AI智能分析收錄」</p>
+                            <p>貼上報告文字後點擊「AI智能分析收錄」</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tab 2: 上傳檔案 -->
-        <div class="tab-content">
-            <div class="input-area">
-                <div class="left-panel">
-                    <div class="section-title">📤 上傳研究報告檔案</div>
-                    <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
-                        <div class="upload-icon">📄</div>
-                        <div class="upload-text">點擊或拖拽檔案到這裡</div>
-                        <div style="color: #999; margin-top: 10px;">支援 PDF, DOCX, TXT | 最大 200MB</div>
-                    </div>
-                    <input type="file" id="fileInput" class="file-input" accept=".pdf,.docx,.doc,.txt" multiple>
-                    
-                    <div class="hint-box" style="margin-top: 20px;">
-                        <h4>📁 支援格式:</h4>
-                        <ul>
-                            <li>✓ PDF - 自動提取文字內容</li>
-                            <li>✓ Word (DOCX/DOC) - 完整解析</li>
-                            <li>✓ TXT - 純文字檔案</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="right-panel">
-                    <div class="section-title">📊 處理狀態</div>
-                    <div id="fileResult" class="result-box">
-                        <div class="result-item">
-                            <h4>等待上傳...</h4>
-                            <p>上傳檔案後自動開始處理</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tab 3: 100%自動化方案 -->
-        <div class="tab-content">
-            <div style="padding: 20px;">
-                <h2 style="color: #667eea; margin-bottom: 30px;">🤖 三種100%自動化收錄方案</h2>
-                
-                <!-- 方案A -->
-                <div class="method-card">
-                    <span class="badge badge-best">✨ 最佳方案</span>
-                    <h3>方案A: 整合Claude API (準確度100%)</h3>
-                    
-                    <div class="api-setup">
-                        <h3>🔑 API設定</h3>
-                        <input type="text" class="api-input" id="apiKey" placeholder="請輸入您的Claude API Key">
-                        <button class="btn-primary" onclick="saveApiKey()">💾 儲存API Key</button>
-                        <p style="margin-top: 10px; color: #856404; font-size: 13px;">
-                            ℹ️ API Key會儲存在您的瀏覽器本機,不會上傳到任何伺服器
-                        </p>
-                    </div>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">📋 實施步驟:</h4>
-                    <ol class="steps">
-                        <li><strong>取得Claude API Key:</strong>
-                            <ul>
-                                <li>前往 <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></li>
-                                <li>註冊帳號並取得API Key</li>
-                                <li>每月有免費額度,超過後按使用量付費</li>
-                            </ul>
-                        </li>
-                        <li><strong>在上方輸入API Key並儲存</strong></li>
-                        <li><strong>使用方式:</strong>
-                            <ul>
-                                <li>貼上Call Memo文字或上傳檔案</li>
-                                <li>點擊「AI智能分析」</li>
-                                <li>系統自動呼叫Claude API進行100%精準分析</li>
-                                <li>自動生成兩個Excel檔案供下載</li>
-                            </ul>
-                        </li>
-                    </ol>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">✅ 優點:</h4>
-                    <ul class="steps">
-                        <li>準確度100%,完全符合您的收錄規則</li>
-                        <li>完全在瀏覽器執行,資料不外洩</li>
-                        <li>可離線使用(除了API呼叫)</li>
-                        <li>一次設定,永久使用</li>
-                    </ul>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">💰 費用:</h4>
-                    <p style="padding-left: 20px;">每份報告約花費 $0.01-0.05 美元 (非常便宜)</p>
-                </div>
-                
-                <!-- 方案B -->
-                <div class="method-card">
-                    <span class="badge badge-good">🔧 實用方案</span>
-                    <h3>方案B: Python後端服務 (推薦給不想管API的您)</h3>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">📋 實施步驟:</h4>
-                    <ol class="steps">
-                        <li><strong>我提供Python後端程式</strong>
-                            <ul>
-                                <li>一個簡單的Python腳本</li>
-                                <li>在您電腦背景執行</li>
-                                <li>處理所有AI分析工作</li>
-                            </ul>
-                        </li>
-                        <li><strong>您只需要:</strong>
-                            <ul>
-                                <li>執行一次Python程式(我會教您)</li>
-                                <li>在網頁上傳檔案或貼文字</li>
-                                <li>自動傳送到本機Python處理</li>
-                                <li>下載生成的Excel檔案</li>
-                            </ul>
-                        </li>
-                    </ol>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">✅ 優點:</h4>
-                    <ul class="steps">
-                        <li>不需要管理API Key</li>
-                        <li>完全在您電腦本機執行</li>
-                        <li>準確度100%</li>
-                        <li>一次設定,長期使用</li>
-                    </ul>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">💰 費用:</h4>
-                    <p style="padding-left: 20px;">完全免費(使用我的Claude帳號處理)</p>
-                </div>
-                
-                <!-- 方案C -->
-                <div class="method-card">
-                    <span class="badge badge-basic">📧 簡易方案</span>
-                    <h3>方案C: Email/訊息傳送 (最簡單但較慢)</h3>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">📋 使用方式:</h4>
-                    <ol class="steps">
-                        <li><strong>方式1: 直接在Claude對話中貼上</strong>
-                            <ul>
-                                <li>就像今天這樣,直接貼Call Memo給我</li>
-                                <li>我立即幫您收錄</li>
-                                <li>下載更新後的Excel檔案</li>
-                            </ul>
-                        </li>
-                        <li><strong>方式2: Email自動轉發</strong>
-                            <ul>
-                                <li>設定Email規則,自動轉發券商報告給我</li>
-                                <li>我定期處理並回傳Excel</li>
-                                <li>適合批次處理</li>
-                            </ul>
-                        </li>
-                    </ol>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">✅ 優點:</h4>
-                    <ul class="steps">
-                        <li>完全不需要技術設定</li>
-                        <li>準確度100%(我親自處理)</li>
-                        <li>可以批次處理多份報告</li>
-                    </ul>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">⚠️ 缺點:</h4>
-                    <ul class="steps">
-                        <li>需要等待處理時間(通常1小時內)</li>
-                        <li>不是即時自動化</li>
-                    </ul>
-                    
-                    <h4 style="margin: 20px 0 10px 0;">💰 費用:</h4>
-                    <p style="padding-left: 20px;">完全免費</p>
-                </div>
-                
-                <!-- 建議 -->
-                <div style="background: #e7f3ff; padding: 25px; border-radius: 12px; margin-top: 30px;">
-                    <h3 style="color: #0066cc; margin-bottom: 15px;">💡 Rex大叔的建議</h3>
-                    <ul style="line-height: 2; color: #333;">
-                        <li>✨ <strong>如果您熟悉API</strong> → 選方案A,最快最準確</li>
-                        <li>🔧 <strong>如果您想要全自動但不想管API</strong> → 選方案B,我幫您設定好</li>
-                        <li>📧 <strong>如果您不想搞技術</strong> → 選方案C,像今天一樣貼給我就好</li>
-                    </ul>
-                    <p style="margin-top: 20px; color: #0066cc; font-weight: 600;">
-                        🎯 我個人最推薦<strong>方案B</strong>,我來幫您設定Python後端,之後您就能完全自動化!
-                    </p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function switchTab(index) {
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach(tab => tab.classList.remove('active'));
-            contents.forEach(content => content.classList.remove('active'));
-            
-            tabs[index].classList.add('active');
-            contents[index].classList.add('active');
+        const API_URL = 'http://localhost:5000';
+        let isServiceRunning = false;
+
+        // 檢查服務狀態
+        async function checkServiceStatus() {
+            try {
+                const response = await fetch(`${API_URL}/status`);
+                if (response.ok) {
+                    const data = await response.json();
+                    isServiceRunning = true;
+                    document.getElementById('statusDot').classList.add('connected');
+                    document.getElementById('statusText').textContent = '✅ 服務運行中';
+                    document.getElementById('totalReports').textContent = data.total_reports || 0;
+                    document.getElementById('totalEvents').textContent = data.total_events || 0;
+                } else {
+                    throw new Error('Service not responding');
+                }
+            } catch (error) {
+                isServiceRunning = false;
+                document.getElementById('statusDot').classList.remove('connected');
+                document.getElementById('statusText').textContent = '❌ 服務未啟動 (請執行 2_Start_Service_Simple.bat)';
+            }
         }
-        
-        function analyzeText() {
-            const text = document.getElementById('textInput').value;
-            if (!text.trim()) {
-                alert('請先貼上報告內容');
+
+        // 分析報告
+        async function analyzeReport() {
+            const reportText = document.getElementById('reportInput').value.trim();
+            
+            if (!reportText) {
+                showError('請先貼上報告內容');
                 return;
             }
-            
-            const resultBox = document.getElementById('textResult');
-            resultBox.classList.add('show');
-            resultBox.innerHTML = `
-                <div class="result-item">
-                    <h4>🔄 AI分析中...</h4>
-                    <p>正在使用Claude API分析報告內容,請稍候...</p>
+
+            if (!isServiceRunning) {
+                showError('服務未啟動!<br>請先執行 2_Start_Service_Simple.bat 啟動服務');
+                return;
+            }
+
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = '🔄 分析中...';
+
+            showLoading();
+
+            try {
+                const response = await fetch(`${API_URL}/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: reportText
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === 'success') {
+                    showSuccess(data);
+                    checkServiceStatus(); // 更新統計
+                } else {
+                    showError(data.error || '分析失敗,請檢查報告格式');
+                }
+            } catch (error) {
+                showError('連線失敗!請確認:<br>1. 服務是否啟動 (執行 2_Start_Service_Simple.bat)<br>2. API Key是否正確設定');
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = '🤖 AI智能分析收錄';
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('resultSection').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <h3 style="color: #667eea;">🤖 AI分析中...</h3>
+                    <p style="color: #666; margin-top: 10px;">正在使用Claude API分析報告內容,請稍候...</p>
                 </div>
             `;
-            
-            // 模擬AI處理
-            setTimeout(() => {
-                // 實際使用時,這裡要呼叫Claude API
-                const apiKey = localStorage.getItem('claudeApiKey');
-                
-                if (!apiKey) {
-                    resultBox.innerHTML = `
-                        <div class="result-item">
-                            <h4>⚠️ 需要設定API Key</h4>
-                            <p>請切換到「100%自動化方案」標籤,在方案A中輸入您的Claude API Key</p>
-                            <p style="margin-top: 10px;">或者您可以直接在Claude對話中貼給我處理(方案C)</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // 這裡會實際呼叫API
-                resultBox.innerHTML = `
-                    <div class="result-item">
-                        <h4>✅ 分析完成!</h4>
-                        <p><strong>公司:</strong> 自動識別中...</p>
-                        <p><strong>券商:</strong> 自動識別中...</p>
-                        <p><strong>重要事件:</strong> 自動分類中...</p>
-                        <p style="margin-top: 15px; color: #28a745;">
-                            📥 Excel檔案生成中,即將可下載...
-                        </p>
+        }
+
+        function showSuccess(data) {
+            document.getElementById('resultSection').innerHTML = `
+                <div class="result-item success">
+                    <h4>✅ 收錄完成!</h4>
+                    <p><strong>報告編號:</strong> ${data.report_number}</p>
+                    <p><strong>公司:</strong> ${data.company} (${data.stock_code})</p>
+                    <p><strong>收錄事件:</strong> ${data.events_count}個</p>
+                    ${data.events && data.events.length > 0 ? `
+                        <p style="margin-top: 10px;"><strong>事件清單:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            ${data.events.map(e => `<li>${e}</li>`).join('')}
+                        </ul>
+                    ` : ''}
+                </div>
+                <div class="result-item" style="border-left-color: #28a745;">
+                    <h4>📥 下載更新後的Excel檔案</h4>
+                    <div class="download-links">
+                        <a href="${API_URL}/download/system1" class="download-link" download>
+                            📊 研究報告資料庫
+                        </a>
+                        <a href="${API_URL}/download/system2" class="download-link" download>
+                            🔥 熱門事件報告
+                        </a>
                     </div>
-                `;
-            }, 2000);
+                    <p style="margin-top: 15px; color: #28a745; font-weight: 600;">
+                        ✨ Excel檔案已自動更新到資料夾!
+                    </p>
+                </div>
+            `;
         }
-        
-        function clearText() {
-            document.getElementById('textInput').value = '';
-            document.getElementById('textResult').classList.remove('show');
+
+        function showError(message) {
+            document.getElementById('resultSection').innerHTML = `
+                <div class="result-item error">
+                    <h4>❌ 發生錯誤</h4>
+                    <p>${message}</p>
+                </div>
+            `;
         }
-        
-        function saveApiKey() {
-            const apiKey = document.getElementById('apiKey').value;
-            if (!apiKey.trim()) {
-                alert('請輸入API Key');
-                return;
+
+        function clearInput() {
+            document.getElementById('reportInput').value = '';
+            document.getElementById('resultSection').innerHTML = `
+                <div class="result-item">
+                    <h4>等待分析...</h4>
+                    <p>貼上報告文字後點擊「AI智能分析收錄」</p>
+                </div>
+            `;
+        }
+
+        // 頁面載入時檢查服務
+        window.addEventListener('load', () => {
+            checkServiceStatus();
+            // 每30秒檢查一次服務狀態
+            setInterval(checkServiceStatus, 30000);
+        });
+
+        // 支援Enter快捷鍵
+        document.getElementById('reportInput').addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                analyzeReport();
             }
-            localStorage.setItem('claudeApiKey', apiKey);
-            alert('✅ API Key已儲存!\n\n現在可以切換到「貼上文字」或「上傳檔案」標籤開始使用了!');
-        }
-        
-        // 檢查是否已有API Key
-        window.onload = function() {
-            const savedKey = localStorage.getItem('claudeApiKey');
-            if (savedKey) {
-                document.getElementById('apiKey').value = savedKey;
-            }
-        };
+        });
     </script>
 </body>
 </html>
+
+
+
+
+
