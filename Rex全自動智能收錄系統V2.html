@@ -441,7 +441,7 @@
     <div class="container">
         <div class="header">
             <h1>🚀 Rex大叔全自動智能收錄系統</h1>
-            <p>拖拽檔案即可 | 零輸入全自動 | 支援50MB大檔 | AI智能分析 | 多功能工具整合</p>
+            <p>拖拽檔案即可 | 零輸入全自動 | 支援200MB大檔 | AI智能分析 | 多功能工具整合</p>
         </div>
         
         <div class="main-grid">
@@ -463,7 +463,7 @@
                     <div class="upload-zone" id="uploadZone1" onclick="document.getElementById('fileInput1').click()">
                         <div class="upload-icon">📊</div>
                         <div class="upload-text">拖拽或點擊上傳券商研究報告</div>
-                        <div class="upload-hint">支援 PDF, DOCX, TXT | 最大 50MB</div>
+                        <div class="upload-hint">支援 PDF, DOCX, TXT | 最大 200MB</div>
                         <div class="upload-hint">AI自動識別：公司、券商、分析師、財務數據、熱門事件</div>
                     </div>
                     <input type="file" id="fileInput1" class="file-input" multiple accept=".pdf,.docx,.doc,.txt">
@@ -487,7 +487,7 @@
                     <div class="upload-zone" id="uploadZone2" onclick="document.getElementById('fileInput2').click()">
                         <div class="upload-icon">📰</div>
                         <div class="upload-text">拖拽或點擊上傳投資文章/周刊</div>
-                        <div class="upload-hint">支援 PDF, DOCX, TXT, 圖片 | 最大 50MB</div>
+                        <div class="upload-hint">支援 PDF, DOCX, TXT, 圖片 | 最大 200MB</div>
                         <div class="upload-hint">AI自動分類：產業趨勢、投資觀點、市場分析</div>
                     </div>
                     <input type="file" id="fileInput2" class="file-input" multiple accept=".pdf,.docx,.doc,.txt,.jpg,.jpeg,.png">
@@ -699,8 +699,8 @@
             
             // 檢查檔案大小
             for (let file of files) {
-                if (file.size > 50 * 1024 * 1024) {
-                    showToast('error', `❌ 檔案 ${file.name} 超過50MB限制`);
+                if (file.size > 200 * 1024 * 1024) {
+                    showToast('error', `❌ 檔案 ${file.name} 超過200MB限制`);
                     return;
                 }
             }
