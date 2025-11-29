@@ -465,26 +465,26 @@
         const renderers = {news:renderNews,memo:renderMemo,reports:renderReports,trends:renderTrends,industry:renderIndustry,timeline:renderTimeline,stocks:renderStocks};
         if (renderers[currentDB]) renderers[currentDB]();
     }
-```
-
-uniqueStocks[s.code]) uniqueStocks[s.code] = s; });
-let filtered = Object.values(uniqueStocks).filter(s => {
-if (activeFilters.search) { const st = [s.code,s.name,s.industry,s.subIndustry,s.business].join(’ ‘).toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
-if (activeFilters.industry && s.industry !== activeFilters.industry) return false;
-if (activeFilters.market && s.market !== activeFilters.market) return false;
-return true;
-});
-filtered.sort((a,b)=>a.code.localeCompare(b.code));
-document.getElementById(‘filteredCount’).textContent = filtered.length;
-const list = document.getElementById(‘reportsList’);
-if (filtered.length===0) { list.innerHTML = ‘<div class="empty-state"><p>🔍 沒有符合條件的個股</p></div>’; return; }
-list.innerHTML = filtered.slice(0,50).map(s => {
-const concepts = conceptStocks.filter(c=>c.code===s.code).slice(0,3);
-return ‘<div class="card-base stock-card" onclick="openStockModal(\''+s.code+'\')"><span class="stock-badge">’+s.market+’</span><div class="card-header"><div class="card-left"><span class="company-name">’+s.name+’</span><span class="stock-code">’+s.code+’</span></div><div style="text-align:right;"><div style="font-size:16px;font-weight:700;">’+s.price+’</div><div style="font-size:11px;color:'+(String(s.changePercent).includes('-')?'#d64545':'#2e7d46')+';">’+s.change+’ (’+s.changePercent+’)</div></div></div><div class="card-meta"><span class="meta-tag industry">’+s.industry+’</span><span class="meta-tag date">市值 ‘+s.marketCap+‘億</span></div><div class="card-content">’+(s.business||’’).substring(0,80)+’…</div>’+(concepts.length>0?’<div class="card-tags" style="margin-top:8px;">’+concepts.map(c=>’<span class="mini-tag">’+c.concept+’</span>’).join(’’)+’</div>’:’’)+’</div>’;
-}).join(’’) + (filtered.length>50?’<div style="text-align:center;padding:20px;color:#8b8b8b;">顯示前 50 筆，共 ‘+filtered.length+’ 筆</div>’:’’);
-}
-
-```
+    
+    function renderStocks() {
+        const uniqueStocks = {};
+        Object.values(masterStocks).forEach(s => { if (s.code && !uniqueStocks[s.code]) { uniqueStocks[s.code] = s; } });
+        let filtered = Object.values(uniqueStocks).filter(s => {
+            if (activeFilters.search) { const st = [s.code,s.name,s.industry,s.subIndustry,s.business].join(' ').toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
+            if (activeFilters.industry && s.industry !== activeFilters.industry) return false;
+            if (activeFilters.market && s.market !== activeFilters.market) return false;
+            return true;
+        });
+        filtered.sort((a,b)=>a.code.localeCompare(b.code));
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length===0) { list.innerHTML = '<div class="empty-state"><p>🔍 沒有符合條件的個股</p></div>'; return; }
+        list.innerHTML = filtered.slice(0,50).map(s => {
+            const concepts = conceptStocks.filter(c=>c.code===s.code).slice(0,3);
+            return '<div class="card-base stock-card" onclick="openStockModal(\''+s.code+'\')"><span class="stock-badge">'+s.market+'</span><div class="card-header"><div class="card-left"><span class="company-name">'+s.name+'</span><span class="stock-code">'+s.code+'</span></div><div style="text-align:right;"><div style="font-size:16px;font-weight:700;">'+s.price+'</div><div style="font-size:11px;color:'+(String(s.changePercent).includes('-')?'#d64545':'#2e7d46')+';">'+s.change+' ('+s.changePercent+')</div></div></div><div class="card-meta"><span class="meta-tag industry">'+s.industry+'</span><span class="meta-tag date">市值 '+s.marketCap+'億</span></div><div class="card-content">'+(s.business||'').substring(0,80)+'...</div>'+(concepts.length>0?'<div class="card-tags" style="margin-top:8px;">'+concepts.map(c=>'<span class="mini-tag">'+c.concept+'</span>').join('')+'</div>':'')+'</div>';
+        }).join('') + (filtered.length>50?'<div style="text-align:center;padding:20px;color:#8b8b8b;">顯示前 50 筆，共 '+filtered.length+' 筆</div>':'');
+    }
+    
     function openNewsModal(id) {
         const item = newsData.find(n=>n.id==id); if (!item) return;
         const content = newsContent[id]||'';
