@@ -17,11 +17,7 @@
         color: #2d2d2d;
     }
     
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 12px;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 12px; }
     
     .header {
         text-align: center;
@@ -29,30 +25,21 @@
         border-bottom: 1px solid #e5e3dc;
         margin-bottom: 15px;
     }
-    
     .header h1 { font-size: 22px; color: #c96442; margin-bottom: 4px; }
     .header .subtitle { color: #6b6b6b; font-size: 13px; }
     
-    .db-switcher {
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        margin: 15px 0;
-        flex-wrap: wrap;
-    }
-    
+    .db-switcher { display: flex; justify-content: center; gap: 6px; margin: 15px 0; flex-wrap: wrap; }
     .db-tab {
-        padding: 8px 16px;
+        padding: 8px 14px;
         border: 2px solid #e5e3dc;
         background: #fff;
         border-radius: 20px;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
         color: #6b6b6b;
         cursor: pointer;
         transition: all 0.2s;
     }
-    
     .db-tab:hover { border-color: #c96442; color: #c96442; }
     .db-tab.active { background: #c96442; border-color: #c96442; color: #fff; }
     .db-tab .count {
@@ -60,26 +47,21 @@
         background: rgba(0,0,0,0.1);
         padding: 1px 6px;
         border-radius: 8px;
-        font-size: 11px;
-        margin-left: 4px;
+        font-size: 10px;
+        margin-left: 3px;
     }
     .db-tab.active .count { background: rgba(255,255,255,0.3); }
     
     .loading-overlay {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
         background: #f5f4ef;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
         z-index: 9999;
     }
     .loading-overlay.hidden { display: none; }
     .loading-spinner {
         width: 40px; height: 40px;
-        border: 3px solid #e5e3dc;
-        border-top-color: #c96442;
+        border: 3px solid #e5e3dc; border-top-color: #c96442;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin-bottom: 15px;
@@ -98,84 +80,39 @@
     
     .main-search { position: relative; margin-bottom: 10px; }
     .main-search::before {
-        content: "🔍";
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 15px;
-        z-index: 2;
+        content: "🔍"; position: absolute; left: 14px; top: 50%;
+        transform: translateY(-50%); font-size: 15px; z-index: 2;
     }
-    
     #mainSearchInput {
-        width: 100%;
-        padding: 12px 12px 12px 44px;
-        border: 2px solid #e5e3dc;
-        border-radius: 25px;
-        background: #fafaf8;
-        color: #2d2d2d;
-        font-size: 15px;
+        width: 100%; padding: 12px 12px 12px 44px;
+        border: 2px solid #e5e3dc; border-radius: 25px;
+        background: #fafaf8; color: #2d2d2d; font-size: 15px;
     }
-    #mainSearchInput:focus {
-        outline: none;
-        border-color: #c96442;
-        background: #fff;
-    }
+    #mainSearchInput:focus { outline: none; border-color: #c96442; background: #fff; }
     #mainSearchInput::placeholder { color: #9a9a9a; }
     
     .search-suggestions {
-        position: absolute;
-        top: 100%;
-        left: 0; right: 0;
-        background: #fff;
-        border: 1px solid #e5e3dc;
-        border-radius: 12px;
-        margin-top: 4px;
-        max-height: 280px;
-        overflow-y: auto;
-        z-index: 100;
-        display: none;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: #fff; border: 1px solid #e5e3dc; border-radius: 12px;
+        margin-top: 4px; max-height: 320px; overflow-y: auto;
+        z-index: 100; display: none;
         box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
     .search-suggestions.active { display: block; }
-    
     .suggestion-group { padding: 6px 0; border-bottom: 1px solid #f0eeea; }
     .suggestion-group:last-child { border-bottom: none; }
-    .suggestion-group-title {
-        padding: 4px 12px;
-        font-size: 10px;
-        color: #8b8b8b;
-        text-transform: uppercase;
-    }
-    .suggestion-item {
-        padding: 8px 12px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
+    .suggestion-group-title { padding: 4px 12px; font-size: 10px; color: #8b8b8b; text-transform: uppercase; }
+    .suggestion-item { padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
     .suggestion-item:hover { background: #fafaf8; }
-    .suggestion-icon {
-        width: 26px; height: 26px;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-    }
+    .suggestion-icon { width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
     .suggestion-icon.company { background: #e8f5ec; }
     .suggestion-icon.tag { background: #fff3e6; }
-    .suggestion-icon.broker { background: #e6f0ff; }
+    .suggestion-icon.stock { background: #e6f0ff; }
     .suggestion-text { flex: 1; }
     .suggestion-main { font-size: 13px; color: #2d2d2d; }
     .suggestion-sub { font-size: 11px; color: #8b8b8b; }
-    .suggestion-count {
-        font-size: 11px;
-        color: #8b8b8b;
-        background: #f0eeea;
-        padding: 2px 6px;
-        border-radius: 8px;
-    }
+    .suggestion-count { font-size: 11px; color: #8b8b8b; background: #f0eeea; padding: 2px 6px; border-radius: 8px; }
+    .suggestion-action { font-size: 10px; color: #c96442; padding: 2px 6px; background: #fff3e6; border-radius: 6px; }
     
     .hot-tags { margin-bottom: 10px; }
     .hot-tags-title { font-size: 11px; color: #8b8b8b; margin-bottom: 6px; }
@@ -183,124 +120,69 @@
     .hot-tag {
         padding: 5px 10px;
         background: linear-gradient(135deg, #fff3e6 0%, #ffe6cc 100%);
-        border: none;
-        border-radius: 12px;
-        font-size: 12px;
-        color: #c96442;
-        cursor: pointer;
+        border: none; border-radius: 12px;
+        font-size: 12px; color: #c96442; cursor: pointer;
     }
     .hot-tag:hover { transform: translateY(-1px); }
     .hot-tag.active { background: #c96442; color: #fff; }
     
-    .filter-row {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-    .filter-select { flex: 1; min-width: 110px; }
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .filter-select { flex: 1; min-width: 100px; }
     .filter-select select {
-        width: 100%;
-        padding: 9px 10px;
-        border: 1px solid #e5e3dc;
-        border-radius: 18px;
-        background: #fafaf8;
-        color: #2d2d2d;
-        font-size: 12px;
-        cursor: pointer;
-        appearance: none;
+        width: 100%; padding: 9px 10px;
+        border: 1px solid #e5e3dc; border-radius: 18px;
+        background: #fafaf8; color: #2d2d2d; font-size: 12px;
+        cursor: pointer; appearance: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%236b6b6b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 10px center;
+        background-repeat: no-repeat; background-position: right 10px center;
     }
     .filter-select select:focus { outline: none; border-color: #c96442; }
-    
     .clear-all-btn {
-        padding: 9px 14px;
-        background: transparent;
-        border: 1px solid #d64545;
-        border-radius: 18px;
-        font-size: 12px;
-        color: #d64545;
-        cursor: pointer;
+        padding: 9px 14px; background: transparent;
+        border: 1px solid #d64545; border-radius: 18px;
+        font-size: 12px; color: #d64545; cursor: pointer;
     }
     
     .active-filters { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
     .active-filter {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 4px 8px;
-        background: #c96442;
-        color: #fff;
-        border-radius: 12px;
-        font-size: 11px;
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 4px 8px; background: #c96442; color: #fff;
+        border-radius: 12px; font-size: 11px;
     }
     .active-filter .remove { cursor: pointer; opacity: 0.8; }
     
     .stats-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 6px 0;
-        margin-bottom: 10px;
-        font-size: 12px;
-        color: #6b6b6b;
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 6px 0; margin-bottom: 10px; font-size: 12px; color: #6b6b6b;
     }
     .stats-bar strong { color: #c96442; }
     .sort-options { display: flex; gap: 6px; }
     .sort-btn {
-        padding: 4px 10px;
-        background: #eceae3;
-        border: none;
-        border-radius: 10px;
-        font-size: 11px;
-        color: #5a5a5a;
-        cursor: pointer;
+        padding: 4px 10px; background: #eceae3; border: none;
+        border-radius: 10px; font-size: 11px; color: #5a5a5a; cursor: pointer;
     }
     .sort-btn.active { background: #c96442; color: #fff; }
     
     .reports-list { display: flex; flex-direction: column; gap: 10px; }
     
-    /* 卡片共用樣式 */
     .card-base {
-        background: #fff;
-        border: 1px solid #e5e3dc;
-        border-radius: 14px;
-        padding: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
+        background: #fff; border: 1px solid #e5e3dc; border-radius: 14px;
+        padding: 14px; cursor: pointer; transition: all 0.2s;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .card-base:hover {
-        border-color: #c96442;
-        box-shadow: 0 4px 16px rgba(201,100,66,0.12);
-    }
+    .card-base:hover { border-color: #c96442; box-shadow: 0 4px 16px rgba(201,100,66,0.12); }
     
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 8px;
-    }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
     .card-left { display: flex; align-items: center; gap: 8px; flex: 1; }
     .company-name { font-size: 15px; font-weight: 700; color: #2d2d2d; }
-    .stock-code {
-        font-size: 11px;
-        color: #8b8b8b;
-        background: #f0eeea;
-        padding: 2px 6px;
-        border-radius: 6px;
-    }
+    .company-link { color: #c96442; cursor: pointer; text-decoration: underline; }
+    .company-link:hover { color: #a85035; }
+    .stock-code { font-size: 11px; color: #8b8b8b; background: #f0eeea; padding: 2px 6px; border-radius: 6px; cursor: pointer; }
+    .stock-code:hover { background: #c96442; color: #fff; }
     .importance { color: #f5a623; font-size: 11px; letter-spacing: -2px; }
     
     .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-    .meta-tag {
-        font-size: 10px;
-        padding: 3px 8px;
-        border-radius: 10px;
-        font-weight: 500;
-    }
+    .meta-tag { font-size: 10px; padding: 3px 8px; border-radius: 10px; font-weight: 500; }
     .meta-tag.broker { background: #c96442; color: #fff; }
     .meta-tag.category { background: #5a9e6f; color: #fff; }
     .meta-tag.industry { background: #6b8cce; color: #fff; }
@@ -308,175 +190,108 @@
     .meta-tag.analyst { background: #e6f0ff; color: #4a6fa5; }
     
     .card-content {
-        font-size: 13px;
-        color: #5a5a5a;
-        line-height: 1.6;
-        margin-bottom: 8px;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        font-size: 13px; color: #5a5a5a; line-height: 1.6; margin-bottom: 8px;
+        display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     }
     
     .card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-    .mini-tag {
-        font-size: 10px;
-        padding: 2px 6px;
-        background: #fff3e6;
-        color: #c96442;
-        border-radius: 6px;
-    }
+    .mini-tag { font-size: 10px; padding: 2px 6px; background: #fff3e6; color: #c96442; border-radius: 6px; }
     
-    .card-data {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        padding-top: 8px;
-        border-top: 1px solid #f0eeea;
-        margin-top: 8px;
-    }
+    .card-data { display: flex; gap: 12px; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid #f0eeea; margin-top: 8px; }
     .data-item { font-size: 11px; }
     .data-label { color: #8b8b8b; }
     .data-value { color: #2d2d2d; font-weight: 600; }
     .data-value.positive { color: #2e7d46; }
     .data-value.negative { color: #d64545; }
     
-    /* 趨勢卡片特殊樣式 */
-    .trend-card {
-        background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%);
-        border: 2px solid #5a9e6f;
-    }
-    .trend-badge {
-        display: inline-block;
-        font-size: 10px;
-        padding: 2px 8px;
-        background: #5a9e6f;
-        color: #fff;
-        border-radius: 8px;
-        margin-bottom: 6px;
-    }
+    .trend-card { background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%); border: 2px solid #5a9e6f; }
+    .trend-badge { display: inline-block; font-size: 10px; padding: 2px 8px; background: #5a9e6f; color: #fff; border-radius: 8px; margin-bottom: 6px; }
     
-    /* 彈窗 */
+    /* 公司資訊卡片樣式 */
+    .stock-card {
+        background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+        border: 2px solid #6b8cce;
+    }
+    .stock-badge { display: inline-block; font-size: 10px; padding: 2px 8px; background: #6b8cce; color: #fff; border-radius: 8px; margin-bottom: 6px; }
+    
     .modal-overlay {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.5);
-        z-index: 1000;
-        display: none;
-        overflow-y: auto;
-        padding: 15px 10px;
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5); z-index: 1000;
+        display: none; overflow-y: auto; padding: 15px 10px;
     }
     .modal-overlay.active { display: block; }
     
     .modal-content {
-        max-width: 800px;
-        margin: 0 auto;
-        background: #fff;
-        border-radius: 18px;
-        overflow: hidden;
+        max-width: 800px; margin: 0 auto;
+        background: #fff; border-radius: 18px; overflow: hidden;
         box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
     
     .modal-header {
-        padding: 16px;
-        background: #fafaf8;
+        padding: 16px; background: #fafaf8;
         border-bottom: 1px solid #e5e3dc;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
+        display: flex; justify-content: space-between; align-items: flex-start;
     }
     .modal-header-info { flex: 1; }
     .modal-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
     .modal-title { font-size: 18px; font-weight: 700; color: #2d2d2d; margin-bottom: 3px; }
     .modal-subtitle { font-size: 13px; color: #6b6b6b; }
     .modal-close {
-        width: 32px; height: 32px;
-        border: none;
-        background: #eceae3;
-        border-radius: 50%;
-        color: #5a5a5a;
-        font-size: 18px;
-        cursor: pointer;
-        margin-left: 10px;
+        width: 32px; height: 32px; border: none; background: #eceae3;
+        border-radius: 50%; color: #5a5a5a; font-size: 18px; cursor: pointer; margin-left: 10px;
     }
     
     .modal-body { padding: 16px; }
     .modal-section { margin-bottom: 18px; }
     .modal-section:last-child { margin-bottom: 0; }
     .section-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: #c96442;
-        margin-bottom: 10px;
-        padding-bottom: 6px;
-        border-bottom: 1px solid #eceae3;
+        font-size: 13px; font-weight: 600; color: #c96442;
+        margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #eceae3;
     }
     
     .content-block {
-        background: #fafaf8;
-        border-radius: 10px;
-        padding: 12px;
-        font-size: 13px;
-        color: #2d2d2d;
-        line-height: 1.8;
-        white-space: pre-wrap;
+        background: #fafaf8; border-radius: 10px; padding: 12px;
+        font-size: 13px; color: #2d2d2d; line-height: 1.8; white-space: pre-wrap;
     }
     
     .tags-block { display: flex; flex-wrap: wrap; gap: 5px; }
     .modal-tag {
-        font-size: 12px;
-        padding: 4px 10px;
-        background: #fff3e6;
-        color: #c96442;
-        border-radius: 12px;
-        cursor: pointer;
+        font-size: 12px; padding: 4px 10px;
+        background: #fff3e6; color: #c96442;
+        border-radius: 12px; cursor: pointer;
     }
     .modal-tag:hover { background: #c96442; color: #fff; }
     
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
-    }
-    .info-item {
-        background: #fafaf8;
-        padding: 10px;
-        border-radius: 8px;
-    }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .info-item { background: #fafaf8; padding: 10px; border-radius: 8px; }
     .info-label { font-size: 11px; color: #8b8b8b; margin-bottom: 3px; }
     .info-value { font-size: 13px; font-weight: 600; color: #2d2d2d; }
     
     .timeline-item {
-        padding: 10px;
-        background: #fafaf8;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        border-left: 3px solid #c96442;
+        padding: 10px; background: #fafaf8; border-radius: 8px;
+        margin-bottom: 8px; border-left: 3px solid #c96442;
     }
     .timeline-date { font-size: 11px; color: #c96442; font-weight: 600; }
     .timeline-event { font-size: 13px; color: #2d2d2d; margin: 4px 0; }
     .timeline-note { font-size: 11px; color: #6b6b6b; }
     
-    .product-item {
-        background: #fafaf8;
-        padding: 10px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-    }
+    .product-item { background: #fafaf8; padding: 10px; border-radius: 8px; margin-bottom: 8px; }
     .product-name { font-size: 13px; font-weight: 600; color: #2d2d2d; }
     .product-ratio { font-size: 12px; color: #5a9e6f; }
     
-    .empty-state {
-        text-align: center;
-        padding: 50px 20px;
-        color: #8b8b8b;
+    .concept-tag {
+        display: inline-block; padding: 4px 10px;
+        background: #e6f0ff; color: #4a6fa5;
+        border-radius: 12px; font-size: 11px; margin: 2px;
     }
+    
+    .empty-state { text-align: center; padding: 50px 20px; color: #8b8b8b; }
     .empty-state .icon { font-size: 36px; margin-bottom: 10px; }
     
     @media (max-width: 600px) {
         .container { padding: 10px; }
         .header h1 { font-size: 18px; }
-        .db-tab { padding: 6px 12px; font-size: 12px; }
+        .db-tab { padding: 6px 10px; font-size: 11px; }
         .filter-row { flex-direction: column; }
         .filter-select { min-width: 100%; }
         .modal-title { font-size: 16px; }
@@ -496,27 +311,20 @@
 <div class="container">
     <div class="header">
         <h1>📊 Rex大叔投資研究室</h1>
-        <p class="subtitle">券商研究報告 × 外電快報 × Call Memo 整合平台</p>
+        <p class="subtitle">券商研究報告 × 外電快報 × Call Memo × 公司資料庫</p>
     </div>
     
     <div class="db-switcher">
-        <button class="db-tab active" data-db="news" onclick="switchDB('news')">
-            ⚡ 外電快報 <span class="count" id="newsCount">0</span>
-        </button>
-        <button class="db-tab" data-db="memo" onclick="switchDB('memo')">
-            📋 Call Memo <span class="count" id="memoCount">0</span>
-        </button>
-        <button class="db-tab" data-db="reports" onclick="switchDB('reports')">
-            📑 產業展望 <span class="count" id="reportsCount">0</span>
-        </button>
-        <button class="db-tab" data-db="trends" onclick="switchDB('trends')">
-            📈 產業趨勢 <span class="count" id="trendsCount">0</span>
-        </button>
+        <button class="db-tab active" data-db="news" onclick="switchDB('news')">⚡外電 <span class="count" id="newsCount">0</span></button>
+        <button class="db-tab" data-db="memo" onclick="switchDB('memo')">📋Memo <span class="count" id="memoCount">0</span></button>
+        <button class="db-tab" data-db="reports" onclick="switchDB('reports')">📑展望 <span class="count" id="reportsCount">0</span></button>
+        <button class="db-tab" data-db="trends" onclick="switchDB('trends')">📈趨勢 <span class="count" id="trendsCount">0</span></button>
+        <button class="db-tab" data-db="stocks" onclick="switchDB('stocks')">🏢個股 <span class="count" id="stocksCount">0</span></button>
     </div>
     
     <div class="search-section">
         <div class="main-search">
-            <input type="text" id="mainSearchInput" placeholder="搜尋公司、標籤、券商、關鍵字...">
+            <input type="text" id="mainSearchInput" placeholder="搜尋公司、代號、標籤、券商...">
             <div class="search-suggestions" id="searchSuggestions"></div>
         </div>
         
@@ -526,12 +334,8 @@
         </div>
         
         <div class="filter-row">
-            <div class="filter-select">
-                <select id="brokerFilter"><option value="">所有券商</option></select>
-            </div>
-            <div class="filter-select" id="categoryFilterWrap">
-                <select id="categoryFilter"><option value="">所有分類</option></select>
-            </div>
+            <div class="filter-select"><select id="brokerFilter"><option value="">所有券商</option></select></div>
+            <div class="filter-select" id="categoryFilterWrap"><select id="categoryFilter"><option value="">所有分類</option></select></div>
             <div class="filter-select" id="importanceFilterWrap">
                 <select id="importanceFilter">
                     <option value="">所有重要性</option>
@@ -540,9 +344,8 @@
                     <option value="⭐⭐⭐">⭐⭐⭐</option>
                 </select>
             </div>
-            <div class="filter-select" id="industryFilterWrap" style="display:none;">
-                <select id="industryFilter"><option value="">所有產業</option></select>
-            </div>
+            <div class="filter-select" id="industryFilterWrap" style="display:none;"><select id="industryFilter"><option value="">所有產業</option></select></div>
+            <div class="filter-select" id="marketFilterWrap" style="display:none;"><select id="marketFilter"><option value="">所有市場</option></select></div>
             <button class="clear-all-btn" onclick="clearAllFilters()">清除</button>
         </div>
         
@@ -574,19 +377,21 @@
     const NEWS_FILE = '外電綜合報導資料庫_完整珍藏版.xlsx';
     const REPORTS_FILE = '投資展望報告收集模板_更新版.xlsx';
     const MEMO_FILE = '研究報告資料庫_完全修正版_71篇.xlsx';
+    const MASTER_FILE = 'Rex產業研究資料庫_終極整合版_含概念股.xlsx';
     
     let newsData = [], newsContent = {}, trendsData = [];
-    let reportsData = [], reportDetails = {}, stocksData = {}, viewpointsData = {};
-    let memoData = [], memoDetails = {}, memoFinance = {}, memoProducts = {}, memoTimeline = {}, memoIndustry = [];
+    let reportsData = [], reportDetails = {}, reportStocksData = {};
+    let memoData = [], memoDetails = {}, memoFinance = {}, memoProducts = {}, memoTimeline = [];
+    let masterStocks = {}, conceptStocks = [];
     
     let currentDB = 'news';
     let currentSort = 'date';
-    let activeFilters = { search: '', broker: '', category: '', importance: '', industry: '', tag: '' };
-    let searchIndex = { companies: {}, tags: {}, brokers: {} };
+    let activeFilters = { search: '', broker: '', category: '', importance: '', industry: '', tag: '', market: '' };
+    let searchIndex = { companies: {}, tags: {}, brokers: {}, stocks: {} };
     
     window.onload = async function() {
         try {
-            await Promise.all([loadNewsData(), loadReportsData(), loadMemoData()]);
+            await Promise.all([loadNewsData(), loadReportsData(), loadMemoData(), loadMasterData()]);
             buildSearchIndex();
             buildFilters();
             buildHotTags();
@@ -597,17 +402,10 @@
             const searchInput = document.getElementById('mainSearchInput');
             searchInput.addEventListener('input', onSearchInput);
             searchInput.addEventListener('focus', () => showSuggestions());
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.main-search')) hideSuggestions();
-            });
+            document.addEventListener('click', (e) => { if (!e.target.closest('.main-search')) hideSuggestions(); });
         } catch (error) {
             console.error('載入失敗:', error);
-            document.getElementById('loadingOverlay').innerHTML = `
-                <div style="text-align:center;color:#d64545;">
-                    <h2>❌ 載入失敗</h2>
-                    <p>${error.message}</p>
-                    <button onclick="location.reload()" style="margin-top:20px;padding:12px 30px;background:#c96442;border:none;border-radius:25px;color:#fff;cursor:pointer;">重新載入</button>
-                </div>`;
+            document.getElementById('loadingOverlay').innerHTML = `<div style="text-align:center;color:#d64545;"><h2>❌ 載入失敗</h2><p>${error.message}</p><button onclick="location.reload()" style="margin-top:20px;padding:12px 30px;background:#c96442;border:none;border-radius:25px;color:#fff;cursor:pointer;">重新載入</button></div>`;
         }
     };
     
@@ -621,29 +419,18 @@
             const s1 = wb.Sheets['報導總表'];
             if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
                 if (!r['編號']) return;
-                newsData.push({
-                    id: r['編號'], date: r['日期'] || '', company: r['公司'] || '',
-                    stockCode: r['股號'] || '', broker: r['券商來源'] || '',
-                    category: r['報導重點分類'] || '', importance: r['重要性'] || '',
-                    tags: r['標籤'] || ''
-                });
+                newsData.push({ id: r['編號'], date: r['日期'] || '', company: r['公司'] || '', stockCode: r['股號'] || '', broker: r['券商來源'] || '', category: r['報導重點分類'] || '', importance: r['重要性'] || '', tags: r['標籤'] || '' });
             });
             
             const s2 = wb.Sheets['完整內容收錄'];
-            if (s2) XLSX.utils.sheet_to_json(s2).forEach(r => {
-                if (r['編號']) newsContent[r['編號']] = r['完整報導內容'] || '';
-            });
+            if (s2) XLSX.utils.sheet_to_json(s2).forEach(r => { if (r['編號']) newsContent[r['編號']] = r['完整報導內容'] || ''; });
             
             const s3 = wb.Sheets['產業趨勢專區'];
             if (s3) XLSX.utils.sheet_to_json(s3).forEach(r => {
                 if (!r['編號']) return;
-                trendsData.push({
-                    id: r['編號'], date: r['日期'] || '', topic: r['產業主題'] || '',
-                    broker: r['券商來源'] || '', content: r['完整內容'] || '',
-                    companies: r['相關公司群'] || '', tags: r['標籤'] || ''
-                });
+                trendsData.push({ id: r['編號'], date: r['日期'] || '', topic: r['產業主題'] || '', broker: r['券商來源'] || '', content: r['完整內容'] || '', companies: r['相關公司群'] || '', tags: r['標籤'] || '' });
             });
-        } catch(e) { console.log('外電資料載入跳過:', e); }
+        } catch(e) { console.log('外電載入跳過:', e); }
     }
     
     async function loadReportsData() {
@@ -656,12 +443,7 @@
             const s1 = wb.Sheets['報告總覽'];
             if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
                 if (!r['報告編號']) return;
-                const report = {
-                    id: r['報告編號'], broker: r['券商名稱'] || '',
-                    date: formatDate(r['報告日期']), industry: r['產業名稱'] || '',
-                    title: r['報告標題'] || '', subtitle: r['副標題'] || '',
-                    rating: r['產業評等'] || '', highlights: []
-                };
+                const report = { id: r['報告編號'], broker: r['券商名稱'] || '', date: formatDate(r['報告日期']), industry: r['產業名稱'] || '', title: r['報告標題'] || '', subtitle: r['副標題'] || '', rating: r['產業評等'] || '', highlights: [] };
                 for (let i = 1; i <= 5; i++) if (r[`核心重點${i}`]) report.highlights.push(r[`核心重點${i}`]);
                 reportsData.push(report);
             });
@@ -670,21 +452,16 @@
             if (s2) XLSX.utils.sheet_to_json(s2).forEach(r => {
                 if (!r['報告編號']) return;
                 if (!reportDetails[r['報告編號']]) reportDetails[r['報告編號']] = [];
-                reportDetails[r['報告編號']].push({
-                    sectionTitle: r['段落標題'] || '', content: r['段落內容'] || ''
-                });
+                reportDetails[r['報告編號']].push({ sectionTitle: r['段落標題'] || '', content: r['段落內容'] || '' });
             });
             
             const s3 = wb.Sheets['個股評價表'];
             if (s3) XLSX.utils.sheet_to_json(s3).forEach(r => {
                 if (!r['報告編號']) return;
-                if (!stocksData[r['報告編號']]) stocksData[r['報告編號']] = [];
-                stocksData[r['報告編號']].push({
-                    name: r['公司名稱'] || '', code: r['股票代號'] || '',
-                    rating: r['評等'] || '', target: r['目標價'], highlight: r['投資亮點'] || ''
-                });
+                if (!reportStocksData[r['報告編號']]) reportStocksData[r['報告編號']] = [];
+                reportStocksData[r['報告編號']].push({ name: r['公司名稱'] || '', code: r['股票代號'] || '', rating: r['評等'] || '', target: r['目標價'], highlight: r['投資亮點'] || '' });
             });
-        } catch(e) { console.log('產業展望載入跳過:', e); }
+        } catch(e) { console.log('展望載入跳過:', e); }
     }
     
     async function loadMemoData() {
@@ -697,88 +474,97 @@
             const s1 = wb.Sheets['報告總表'];
             if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
                 if (!r['編號']) return;
-                memoData.push({
-                    id: r['編號'], date: r['日期'] || '', company: r['公司'] || '',
-                    stockCode: r['股號'] || '', broker: r['券商'] || '',
-                    analyst: r['分析師'] || '', type: r['報告類型'] || '',
-                    importance: r['重要性'] || '', industry: r['產業'] || '',
-                    revenueYoY: r['營收YoY'] || '', grossMargin: r['毛利率'] || '',
-                    eps: r['EPS'] || ''
-                });
+                memoData.push({ id: r['編號'], date: r['日期'] || '', company: r['公司'] || '', stockCode: r['股號'] || '', broker: r['券商'] || '', analyst: r['分析師'] || '', type: r['報告類型'] || '', importance: r['重要性'] || '', industry: r['產業'] || '', revenueYoY: r['營收YoY'] || '', grossMargin: r['毛利率'] || '', eps: r['EPS'] || '' });
             });
             
             const s2 = wb.Sheets['詳細內容庫'];
             if (s2) XLSX.utils.sheet_to_json(s2).forEach(r => {
                 if (!r['編號']) return;
-                memoDetails[r['編號']] = {
-                    operation: r['營運重點'] || '', strategy: r['策略方向'] || '',
-                    qa: r['重要QA摘要'] || '', rexView: r['Rex觀察'] || '',
-                    followUp: r['後續追蹤'] || '', tags: r['標籤'] || ''
-                };
+                memoDetails[r['編號']] = { operation: r['營運重點'] || '', strategy: r['策略方向'] || '', qa: r['重要QA摘要'] || '', rexView: r['Rex觀察'] || '', followUp: r['後續追蹤'] || '', tags: r['標籤'] || '' };
             });
             
             const s3 = wb.Sheets['財務數據彙總'];
             if (s3) XLSX.utils.sheet_to_json(s3).forEach(r => {
                 if (!r['公司']) return;
-                memoFinance[r['公司']] = {
-                    revenue: r['3Q25營收'] || '', revenueYoY: r['營收YoY'] || '',
-                    revenueQoQ: r['營收QoQ'] || '', grossMargin: r['毛利率'] || '',
-                    netIncome: r['稅後淨利'] || '', eps: r['EPS'] || '',
-                    guidance: r['4Q25指引'] || ''
-                };
+                memoFinance[r['公司']] = { revenue: r['3Q25營收'] || '', revenueYoY: r['營收YoY'] || '', revenueQoQ: r['營收QoQ'] || '', grossMargin: r['毛利率'] || '', netIncome: r['稅後淨利'] || '', eps: r['EPS'] || '', guidance: r['4Q25指引'] || '' };
             });
             
             const s4 = wb.Sheets['產品結構分析'];
             if (s4) XLSX.utils.sheet_to_json(s4).forEach(r => {
                 if (!r['公司']) return;
-                memoProducts[r['公司']] = {
-                    products: [
-                        { name: r['主要產品1'], ratio: r['佔比/表現1'] },
-                        { name: r['主要產品2'], ratio: r['佔比/表現2'] },
-                        { name: r['主要產品3'], ratio: r['佔比/表現3'] }
-                    ].filter(p => p.name),
-                    driver: r['關鍵成長動能'] || '',
-                    outlook2026: r['2026展望'] || ''
-                };
+                memoProducts[r['公司']] = { products: [{ name: r['主要產品1'], ratio: r['佔比/表現1'] }, { name: r['主要產品2'], ratio: r['佔比/表現2'] }, { name: r['主要產品3'], ratio: r['佔比/表現3'] }].filter(p => p.name), driver: r['關鍵成長動能'] || '', outlook2026: r['2026展望'] || '' };
             });
             
             const s5 = wb.Sheets['關鍵時程追蹤'];
             if (s5) XLSX.utils.sheet_to_json(s5).forEach(r => {
                 if (!r['公司']) return;
-                if (!memoTimeline[r['公司']]) memoTimeline[r['公司']] = [];
-                memoTimeline[r['公司']].push({
-                    time: r['時間'] || '', event: r['事件'] || '',
-                    type: r['類型'] || '', importance: r['重要性'] || '',
-                    impact: r['預期影響'] || '', status: r['追蹤狀態'] || '',
-                    note: r['備註'] || ''
-                });
+                memoTimeline.push({ company: r['公司'], time: r['時間'] || '', event: r['事件'] || '', type: r['類型'] || '', importance: r['重要性'] || '', impact: r['預期影響'] || '', status: r['追蹤狀態'] || '', note: r['備註'] || '' });
+            });
+        } catch(e) { console.log('Memo載入跳過:', e); }
+    }
+    
+    async function loadMasterData() {
+        try {
+            const response = await fetch(MASTER_FILE);
+            if (!response.ok) return;
+            const ab = await response.arrayBuffer();
+            const wb = XLSX.read(ab, { type: 'array' });
+            
+            const s1 = wb.Sheets['主資料庫'];
+            if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
+                if (!r['代號']) return;
+                const code = String(r['代號']);
+                masterStocks[code] = {
+                    code: code, name: r['公司名稱'] || '', market: r['市場分類'] || '',
+                    industry: r['產業分類'] || '', subIndustry: r['產業細分'] || '',
+                    related: r['相關分類'] || '', position: r['產業地位說明'] || '',
+                    price: r['成交'] || '', change: r['漲跌價'] || '', changePercent: r['漲跌幅'] || '',
+                    volume: r['成交張數'] || '', parValue: r['面值(元)'] || '',
+                    capital: r['股本(億)'] || '', marketCap: r['市值(億)'] || '',
+                    shares: r['發行量(萬張)'] || '', foundedYears: r['成立年數'] || '',
+                    listedYears: r['掛牌年數'] || '', chairman: r['董事長'] || '',
+                    ceo: r['總經理'] || '', business: r['業務摘要'] || '',
+                    group: r['相關集團'] || '', hasFutures: r['股票期貨'] || '',
+                    hasOptions: r['股票選擇權'] || '', hasWarrant: r['權證'] || '',
+                    hasBond: r['公司債'] || '', updateDate: r['資料更新日期'] || ''
+                };
+                // 同時用名稱做索引
+                if (r['公司名稱']) masterStocks[r['公司名稱']] = masterStocks[code];
             });
             
-            const s6 = wb.Sheets['產業趨勢總覽'];
-            if (s6) XLSX.utils.sheet_to_json(s6).forEach(r => {
-                if (!r['產業']) return;
-                memoIndustry.push({
-                    industry: r['產業'] || '', trend: r['趨勢判斷'] || '',
-                    position: r['景氣位置'] || '', companies: r['代表公司'] || '',
-                    driver: r['關鍵驅動因素'] || '', risk: r['風險因素'] || '',
-                    outlook: r['2026展望'] || '', suggestion: r['投資建議'] || ''
-                });
-            });
-        } catch(e) { console.log('Call Memo載入跳過:', e); }
+            const s2 = wb.Sheets['💡概念股族群資料庫'];
+            if (s2) {
+                const rows = XLSX.utils.sheet_to_json(s2, { header: 1 });
+                for (let i = 3; i < rows.length; i++) {
+                    const r = rows[i];
+                    if (!r[0]) continue;
+                    conceptStocks.push({
+                        code: String(r[0]), name: r[1] || '', concept: r[2] || '',
+                        subRole: r[3] || '', description: r[4] || '',
+                        importance: r[5] || '', duration: r[6] || '',
+                        source: r[7] || '', updateDate: r[8] || '', status: r[9] || ''
+                    });
+                }
+            }
+        } catch(e) { console.log('主資料庫載入跳過:', e); }
     }
     
     function formatDate(v) {
         if (!v) return '';
         if (typeof v === 'string') return v;
-        if (typeof v === 'number') {
-            const d = new Date((v - 25569) * 86400 * 1000);
-            return d.toLocaleDateString('zh-TW');
-        }
+        if (typeof v === 'number') { const d = new Date((v - 25569) * 86400 * 1000); return d.toLocaleDateString('zh-TW'); }
         return String(v);
     }
     
     function buildSearchIndex() {
-        searchIndex = { companies: {}, tags: {}, brokers: {} };
+        searchIndex = { companies: {}, tags: {}, brokers: {}, stocks: {} };
+        
+        // 從主資料庫建立股票索引
+        Object.values(masterStocks).forEach(s => {
+            if (s.code && !searchIndex.stocks[s.code]) {
+                searchIndex.stocks[s.code] = { name: s.name, code: s.code, market: s.market, industry: s.industry };
+            }
+        });
         
         newsData.forEach(item => {
             if (item.company) {
@@ -790,10 +576,7 @@
                 if (!searchIndex.tags[t]) searchIndex.tags[t] = 0;
                 searchIndex.tags[t]++;
             });
-            if (item.broker) {
-                if (!searchIndex.brokers[item.broker]) searchIndex.brokers[item.broker] = 0;
-                searchIndex.brokers[item.broker]++;
-            }
+            if (item.broker) { if (!searchIndex.brokers[item.broker]) searchIndex.brokers[item.broker] = 0; searchIndex.brokers[item.broker]++; }
         });
         
         memoData.forEach(item => {
@@ -811,30 +594,28 @@
     }
     
     function buildFilters() {
-        const brokers = [...new Set([
-            ...newsData.map(n => n.broker),
-            ...memoData.map(m => m.broker),
-            ...reportsData.map(r => r.broker)
-        ])].filter(Boolean).sort();
+        const brokers = [...new Set([...newsData.map(n => n.broker), ...memoData.map(m => m.broker), ...reportsData.map(r => r.broker)])].filter(Boolean).sort();
         document.getElementById('brokerFilter').innerHTML = '<option value="">所有券商</option>' + brokers.map(b => `<option value="${b}">${b}</option>`).join('');
         
         const categories = [...new Set(newsData.map(n => n.category))].filter(Boolean).sort();
         document.getElementById('categoryFilter').innerHTML = '<option value="">所有分類</option>' + categories.map(c => `<option value="${c}">${c}</option>`).join('');
         
-        const industries = [...new Set([...reportsData.map(r => r.industry), ...memoData.map(m => m.industry)])].filter(Boolean).sort();
+        const industries = [...new Set([...reportsData.map(r => r.industry), ...memoData.map(m => m.industry), ...Object.values(masterStocks).map(s => s.industry)])].filter(Boolean).sort();
         document.getElementById('industryFilter').innerHTML = '<option value="">所有產業</option>' + industries.map(i => `<option value="${i}">${i}</option>`).join('');
+        
+        const markets = [...new Set(Object.values(masterStocks).map(s => s.market))].filter(Boolean).sort();
+        document.getElementById('marketFilter').innerHTML = '<option value="">所有市場</option>' + markets.map(m => `<option value="${m}">${m}</option>`).join('');
         
         document.getElementById('brokerFilter').onchange = applyFilters;
         document.getElementById('categoryFilter').onchange = applyFilters;
         document.getElementById('importanceFilter').onchange = applyFilters;
         document.getElementById('industryFilter').onchange = applyFilters;
+        document.getElementById('marketFilter').onchange = applyFilters;
     }
     
     function buildHotTags() {
         const topTags = Object.entries(searchIndex.tags).sort((a, b) => b[1] - a[1]).slice(0, 10);
-        document.getElementById('hotTagsList').innerHTML = topTags.map(([tag]) => 
-            `<button class="hot-tag" onclick="searchByTag('${tag}')">#${tag}</button>`
-        ).join('');
+        document.getElementById('hotTagsList').innerHTML = topTags.map(([tag]) => `<button class="hot-tag" onclick="searchByTag('${tag}')">#${tag}</button>`).join('');
     }
     
     function onSearchInput(e) {
@@ -851,23 +632,11 @@
             const topCompanies = Object.entries(searchIndex.companies).sort((a, b) => b[1].count - a[1].count).slice(0, 5);
             const topTags = Object.entries(searchIndex.tags).sort((a, b) => b[1] - a[1]).slice(0, 5);
             container.innerHTML = `
-                <div class="suggestion-group">
-                    <div class="suggestion-group-title">熱門公司</div>
-                    ${topCompanies.map(([name, data]) => `
-                        <div class="suggestion-item" onclick="searchByCompany('${name}')">
-                            <div class="suggestion-icon company">🏢</div>
-                            <div class="suggestion-text"><div class="suggestion-main">${name}</div><div class="suggestion-sub">${data.code || ''}</div></div>
-                            <span class="suggestion-count">${data.count}筆</span>
-                        </div>`).join('')}
+                <div class="suggestion-group"><div class="suggestion-group-title">熱門公司</div>
+                    ${topCompanies.map(([name, data]) => `<div class="suggestion-item" onclick="searchByCompany('${name}')"><div class="suggestion-icon company">🏢</div><div class="suggestion-text"><div class="suggestion-main">${name}</div><div class="suggestion-sub">${data.code || ''}</div></div><span class="suggestion-count">${data.count}筆</span></div>`).join('')}
                 </div>
-                <div class="suggestion-group">
-                    <div class="suggestion-group-title">熱門標籤</div>
-                    ${topTags.map(([tag, count]) => `
-                        <div class="suggestion-item" onclick="searchByTag('${tag}')">
-                            <div class="suggestion-icon tag">🏷️</div>
-                            <div class="suggestion-text"><div class="suggestion-main">#${tag}</div></div>
-                            <span class="suggestion-count">${count}筆</span>
-                        </div>`).join('')}
+                <div class="suggestion-group"><div class="suggestion-group-title">熱門標籤</div>
+                    ${topTags.map(([tag, count]) => `<div class="suggestion-item" onclick="searchByTag('${tag}')"><div class="suggestion-icon tag">🏷️</div><div class="suggestion-text"><div class="suggestion-main">#${tag}</div></div><span class="suggestion-count">${count}筆</span></div>`).join('')}
                 </div>`;
             container.classList.add('active');
             return;
@@ -875,25 +644,20 @@
         
         const matchedCompanies = Object.entries(searchIndex.companies).filter(([name]) => name.toLowerCase().includes(query)).sort((a, b) => b[1].count - a[1].count).slice(0, 5);
         const matchedTags = Object.entries(searchIndex.tags).filter(([tag]) => tag.toLowerCase().includes(query)).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        const matchedStocks = Object.entries(searchIndex.stocks).filter(([code, data]) => code.includes(query) || data.name.toLowerCase().includes(query)).slice(0, 5);
         
         let html = '';
+        if (matchedStocks.length > 0) {
+            html += `<div class="suggestion-group"><div class="suggestion-group-title">📊 個股資料</div>
+                ${matchedStocks.map(([code, data]) => `<div class="suggestion-item" onclick="openStockModal('${code}')"><div class="suggestion-icon stock">📈</div><div class="suggestion-text"><div class="suggestion-main">${data.name}</div><div class="suggestion-sub">${code} | ${data.market} | ${data.industry}</div></div><span class="suggestion-action">查看資料</span></div>`).join('')}</div>`;
+        }
         if (matchedCompanies.length > 0) {
-            html += `<div class="suggestion-group"><div class="suggestion-group-title">公司</div>
-                ${matchedCompanies.map(([name, data]) => `
-                    <div class="suggestion-item" onclick="searchByCompany('${name}')">
-                        <div class="suggestion-icon company">🏢</div>
-                        <div class="suggestion-text"><div class="suggestion-main">${name}</div><div class="suggestion-sub">${data.code || ''}</div></div>
-                        <span class="suggestion-count">${data.count}筆</span>
-                    </div>`).join('')}</div>`;
+            html += `<div class="suggestion-group"><div class="suggestion-group-title">🔍 搜尋報導</div>
+                ${matchedCompanies.map(([name, data]) => `<div class="suggestion-item" onclick="searchByCompany('${name}')"><div class="suggestion-icon company">🏢</div><div class="suggestion-text"><div class="suggestion-main">${name}</div><div class="suggestion-sub">${data.code || ''}</div></div><span class="suggestion-count">${data.count}筆報導</span></div>`).join('')}</div>`;
         }
         if (matchedTags.length > 0) {
-            html += `<div class="suggestion-group"><div class="suggestion-group-title">標籤</div>
-                ${matchedTags.map(([tag, count]) => `
-                    <div class="suggestion-item" onclick="searchByTag('${tag}')">
-                        <div class="suggestion-icon tag">🏷️</div>
-                        <div class="suggestion-text"><div class="suggestion-main">#${tag}</div></div>
-                        <span class="suggestion-count">${count}筆</span>
-                    </div>`).join('')}</div>`;
+            html += `<div class="suggestion-group"><div class="suggestion-group-title">🏷️ 標籤</div>
+                ${matchedTags.map(([tag, count]) => `<div class="suggestion-item" onclick="searchByTag('${tag}')"><div class="suggestion-icon tag">🏷️</div><div class="suggestion-text"><div class="suggestion-main">#${tag}</div></div><span class="suggestion-count">${count}筆</span></div>`).join('')}</div>`;
         }
         
         if (html) { container.innerHTML = html; container.classList.add('active'); }
@@ -924,7 +688,8 @@
         document.querySelectorAll('.db-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.db === db));
         document.getElementById('categoryFilterWrap').style.display = (db === 'news') ? 'block' : 'none';
         document.getElementById('importanceFilterWrap').style.display = (db === 'news' || db === 'memo') ? 'block' : 'none';
-        document.getElementById('industryFilterWrap').style.display = (db === 'reports' || db === 'memo') ? 'block' : 'none';
+        document.getElementById('industryFilterWrap').style.display = (db === 'reports' || db === 'memo' || db === 'stocks') ? 'block' : 'none';
+        document.getElementById('marketFilterWrap').style.display = (db === 'stocks') ? 'block' : 'none';
         renderCurrentDB();
     }
     
@@ -933,6 +698,7 @@
         activeFilters.category = document.getElementById('categoryFilter').value;
         activeFilters.importance = document.getElementById('importanceFilter').value;
         activeFilters.industry = document.getElementById('industryFilter').value;
+        activeFilters.market = document.getElementById('marketFilter').value;
         updateActiveFiltersDisplay();
         renderCurrentDB();
     }
@@ -945,6 +711,7 @@
         if (activeFilters.category) html += `<span class="active-filter">${activeFilters.category} <span class="remove" onclick="removeFilter('category')">✕</span></span>`;
         if (activeFilters.importance) html += `<span class="active-filter">${activeFilters.importance} <span class="remove" onclick="removeFilter('importance')">✕</span></span>`;
         if (activeFilters.industry) html += `<span class="active-filter">${activeFilters.industry} <span class="remove" onclick="removeFilter('industry')">✕</span></span>`;
+        if (activeFilters.market) html += `<span class="active-filter">${activeFilters.market} <span class="remove" onclick="removeFilter('market')">✕</span></span>`;
         container.innerHTML = html;
     }
     
@@ -954,18 +721,20 @@
         if (type === 'category') document.getElementById('categoryFilter').value = '';
         if (type === 'importance') document.getElementById('importanceFilter').value = '';
         if (type === 'industry') document.getElementById('industryFilter').value = '';
+        if (type === 'market') document.getElementById('marketFilter').value = '';
         if (type === 'tag') { document.getElementById('mainSearchInput').value = ''; document.querySelectorAll('.hot-tag').forEach(btn => btn.classList.remove('active')); }
         updateActiveFiltersDisplay();
         renderCurrentDB();
     }
     
     function clearAllFilters() {
-        activeFilters = { search: '', broker: '', category: '', importance: '', industry: '', tag: '' };
+        activeFilters = { search: '', broker: '', category: '', importance: '', industry: '', tag: '', market: '' };
         document.getElementById('mainSearchInput').value = '';
         document.getElementById('brokerFilter').value = '';
         document.getElementById('categoryFilter').value = '';
         document.getElementById('importanceFilter').value = '';
         document.getElementById('industryFilter').value = '';
+        document.getElementById('marketFilter').value = '';
         document.querySelectorAll('.hot-tag').forEach(btn => btn.classList.remove('active'));
         updateActiveFiltersDisplay();
         renderCurrentDB();
@@ -982,6 +751,8 @@
         document.getElementById('memoCount').textContent = memoData.length;
         document.getElementById('reportsCount').textContent = reportsData.length;
         document.getElementById('trendsCount').textContent = trendsData.length;
+        const uniqueStocks = new Set(Object.values(masterStocks).map(s => s.code));
+        document.getElementById('stocksCount').textContent = uniqueStocks.size;
     }
     
     function renderCurrentDB() {
@@ -989,6 +760,7 @@
         else if (currentDB === 'memo') renderMemo();
         else if (currentDB === 'reports') renderReports();
         else if (currentDB === 'trends') renderTrends();
+        else if (currentDB === 'stocks') renderStocks();
     }
     
     function renderNews() {
@@ -1015,23 +787,22 @@
             const content = newsContent[item.id] || '';
             const preview = content.replace(/•/g, '').substring(0, 100);
             const tags = item.tags.split('#').filter(t => t.trim()).slice(0, 3);
-            return `
-                <div class="card-base" onclick="openNewsModal('${item.id}')">
-                    <div class="card-header">
-                        <div class="card-left">
-                            <span class="company-name">${item.company}</span>
-                            ${item.stockCode && item.stockCode !== '-' ? `<span class="stock-code">${item.stockCode}</span>` : ''}
-                        </div>
-                        <span class="importance">${item.importance}</span>
+            return `<div class="card-base" onclick="openNewsModal('${item.id}')">
+                <div class="card-header">
+                    <div class="card-left">
+                        <span class="company-name company-link" onclick="event.stopPropagation();openStockModal('${item.stockCode}')">${item.company}</span>
+                        ${item.stockCode && item.stockCode !== '-' ? `<span class="stock-code" onclick="event.stopPropagation();openStockModal('${item.stockCode}')">${item.stockCode}</span>` : ''}
                     </div>
-                    <div class="card-meta">
-                        <span class="meta-tag broker">${item.broker}</span>
-                        <span class="meta-tag category">${item.category}</span>
-                        <span class="meta-tag date">${item.date}</span>
-                    </div>
-                    <div class="card-content">${preview}...</div>
-                    <div class="card-tags">${tags.map(t => `<span class="mini-tag">#${t.trim()}</span>`).join('')}</div>
-                </div>`;
+                    <span class="importance">${item.importance}</span>
+                </div>
+                <div class="card-meta">
+                    <span class="meta-tag broker">${item.broker}</span>
+                    <span class="meta-tag category">${item.category}</span>
+                    <span class="meta-tag date">${item.date}</span>
+                </div>
+                <div class="card-content">${preview}...</div>
+                <div class="card-tags">${tags.map(t => `<span class="mini-tag">#${t.trim()}</span>`).join('')}</div>
+            </div>`;
         }).join('');
     }
     
@@ -1060,29 +831,28 @@
             const detail = memoDetails[item.id] || {};
             const preview = (detail.operation || '').substring(0, 100);
             const tags = (detail.tags || '').split('#').filter(t => t.trim()).slice(0, 3);
-            return `
-                <div class="card-base" onclick="openMemoModal('${item.id}')">
-                    <div class="card-header">
-                        <div class="card-left">
-                            <span class="company-name">${item.company}</span>
-                            <span class="stock-code">${item.stockCode}</span>
-                        </div>
-                        <span class="importance">${item.importance}</span>
+            return `<div class="card-base" onclick="openMemoModal('${item.id}')">
+                <div class="card-header">
+                    <div class="card-left">
+                        <span class="company-name company-link" onclick="event.stopPropagation();openStockModal('${item.stockCode}')">${item.company}</span>
+                        <span class="stock-code" onclick="event.stopPropagation();openStockModal('${item.stockCode}')">${item.stockCode}</span>
                     </div>
-                    <div class="card-meta">
-                        <span class="meta-tag broker">${item.broker}</span>
-                        <span class="meta-tag industry">${item.industry}</span>
-                        <span class="meta-tag analyst">${item.analyst}</span>
-                        <span class="meta-tag date">${item.date}</span>
-                    </div>
-                    <div class="card-content">${preview}...</div>
-                    <div class="card-data">
-                        <div class="data-item"><span class="data-label">營收YoY </span><span class="data-value ${item.revenueYoY.includes('+') ? 'positive' : ''}">${item.revenueYoY}</span></div>
-                        <div class="data-item"><span class="data-label">毛利率 </span><span class="data-value">${item.grossMargin}</span></div>
-                        <div class="data-item"><span class="data-label">EPS </span><span class="data-value">${item.eps}</span></div>
-                    </div>
-                    <div class="card-tags" style="margin-top:8px;">${tags.map(t => `<span class="mini-tag">#${t.trim()}</span>`).join('')}</div>
-                </div>`;
+                    <span class="importance">${item.importance}</span>
+                </div>
+                <div class="card-meta">
+                    <span class="meta-tag broker">${item.broker}</span>
+                    <span class="meta-tag industry">${item.industry}</span>
+                    <span class="meta-tag analyst">${item.analyst}</span>
+                    <span class="meta-tag date">${item.date}</span>
+                </div>
+                <div class="card-content">${preview}...</div>
+                <div class="card-data">
+                    <div class="data-item"><span class="data-label">營收YoY </span><span class="data-value ${item.revenueYoY.includes('+') ? 'positive' : ''}">${item.revenueYoY}</span></div>
+                    <div class="data-item"><span class="data-label">毛利率 </span><span class="data-value">${item.grossMargin}</span></div>
+                    <div class="data-item"><span class="data-label">EPS </span><span class="data-value">${item.eps}</span></div>
+                </div>
+                <div class="card-tags" style="margin-top:8px;">${tags.map(t => `<span class="mini-tag">#${t.trim()}</span>`).join('')}</div>
+            </div>`;
         }).join('');
     }
     
@@ -1103,21 +873,19 @@
         if (filtered.length === 0) { list.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>沒有符合條件的報告</p></div>`; return; }
         
         list.innerHTML = filtered.map(report => {
-            const stocks = stocksData[report.id] || [];
-            const ratingClass = report.rating.includes('優於') ? 'positive' : report.rating.includes('劣於') ? 'negative' : '';
-            return `
-                <div class="card-base" onclick="openReportModal('${report.id}')">
-                    <div class="card-meta">
-                        <span class="meta-tag broker">${report.broker}</span>
-                        <span class="meta-tag industry">${report.industry}</span>
-                        <span class="meta-tag date">${report.date}</span>
-                    </div>
-                    <div class="company-name" style="margin:8px 0 4px;font-size:16px;">${report.title}</div>
-                    ${report.subtitle ? `<div style="font-size:13px;color:#6b6b6b;margin-bottom:8px;">${report.subtitle}</div>` : ''}
-                    ${report.rating ? `<span class="meta-tag" style="background:#e8f5ec;color:#2e7d46;">${report.rating}</span>` : ''}
-                    <div class="card-content" style="margin-top:8px;">${report.highlights.slice(0, 2).join(' / ')}</div>
-                    ${stocks.length > 0 ? `<div class="card-tags" style="margin-top:8px;">${stocks.slice(0, 4).map(s => `<span class="mini-tag">${s.name}</span>`).join('')}</div>` : ''}
-                </div>`;
+            const stocks = reportStocksData[report.id] || [];
+            return `<div class="card-base" onclick="openReportModal('${report.id}')">
+                <div class="card-meta">
+                    <span class="meta-tag broker">${report.broker}</span>
+                    <span class="meta-tag industry">${report.industry}</span>
+                    <span class="meta-tag date">${report.date}</span>
+                </div>
+                <div class="company-name" style="margin:8px 0 4px;font-size:16px;">${report.title}</div>
+                ${report.subtitle ? `<div style="font-size:13px;color:#6b6b6b;margin-bottom:8px;">${report.subtitle}</div>` : ''}
+                ${report.rating ? `<span class="meta-tag" style="background:#e8f5ec;color:#2e7d46;">${report.rating}</span>` : ''}
+                <div class="card-content" style="margin-top:8px;">${report.highlights.slice(0, 2).join(' / ')}</div>
+                ${stocks.length > 0 ? `<div class="card-tags" style="margin-top:8px;">${stocks.slice(0, 4).map(s => `<span class="mini-tag" onclick="event.stopPropagation();openStockModal('${s.code}')">${s.name}</span>`).join('')}</div>` : ''}
+            </div>`;
         }).join('');
     }
     
@@ -1139,19 +907,65 @@
         
         list.innerHTML = filtered.map(item => {
             const tags = item.tags.split('#').filter(t => t.trim()).slice(0, 3);
-            return `
-                <div class="card-base trend-card" onclick="openTrendModal('${item.id}')">
-                    <span class="trend-badge">📈 產業趨勢</span>
-                    <div class="card-meta">
-                        <span class="meta-tag broker">${item.broker}</span>
-                        <span class="meta-tag date">${item.date}</span>
-                    </div>
-                    <div class="company-name" style="margin:8px 0;">${item.topic}</div>
-                    <div style="font-size:12px;color:#5a9e6f;margin-bottom:8px;">📌 ${item.companies}</div>
-                    <div class="card-content">${item.content.substring(0, 80)}...</div>
-                    <div class="card-tags" style="margin-top:8px;">${tags.map(t => `<span class="mini-tag">#${t.trim()}</span>`).join('')}</div>
-                </div>`;
+            return `<div class="card-base trend-card" onclick="openTrendModal('${item.id}')">
+                <span class="trend-badge">📈 產業趨勢</span>
+                <div class="card-meta">
+                    <span class="meta-tag broker">${item.broker}</span>
+                    <span class="meta-tag date">${item.date}</span>
+                </div>
+                <div class="company-name" style="margin:8px 0;">${item.topic}</div>
+                <div style="font-size:12px;color:#5a9e6f;margin-bottom:8px;">📌 ${item.companies}</div>
+                <div class="card-content">${item.content.substring(0, 80)}...</div>
+                <div class="card-tags" style="margin-top:8px;">${tags.map(t => `<span class="mini-tag">#${t.trim()}</span>`).join('')}</div>
+            </div>`;
         }).join('');
+    }
+    
+    function renderStocks() {
+        const uniqueStocks = {};
+        Object.values(masterStocks).forEach(s => { if (s.code && !uniqueStocks[s.code]) uniqueStocks[s.code] = s; });
+        
+        let filtered = Object.values(uniqueStocks).filter(s => {
+            if (activeFilters.search) {
+                const searchText = [s.code, s.name, s.industry, s.subIndustry, s.business].join(' ').toLowerCase();
+                if (!searchText.includes(activeFilters.search)) return false;
+            }
+            if (activeFilters.industry && s.industry !== activeFilters.industry) return false;
+            if (activeFilters.market && s.market !== activeFilters.market) return false;
+            return true;
+        });
+        
+        filtered.sort((a, b) => a.code.localeCompare(b.code));
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length === 0) { list.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>沒有符合條件的個股</p></div>`; return; }
+        
+        list.innerHTML = filtered.slice(0, 50).map(s => {
+            const concepts = conceptStocks.filter(c => c.code === s.code).slice(0, 3);
+            return `<div class="card-base stock-card" onclick="openStockModal('${s.code}')">
+                <span class="stock-badge">${s.market}</span>
+                <div class="card-header">
+                    <div class="card-left">
+                        <span class="company-name">${s.name}</span>
+                        <span class="stock-code">${s.code}</span>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:16px;font-weight:700;">${s.price}</div>
+                        <div style="font-size:11px;color:${String(s.changePercent).includes('-') ? '#d64545' : '#2e7d46'};">${s.change} (${s.changePercent})</div>
+                    </div>
+                </div>
+                <div class="card-meta">
+                    <span class="meta-tag industry">${s.industry}</span>
+                    <span class="meta-tag date">市值 ${s.marketCap}億</span>
+                </div>
+                <div class="card-content">${(s.business || '').substring(0, 80)}...</div>
+                ${concepts.length > 0 ? `<div class="card-tags" style="margin-top:8px;">${concepts.map(c => `<span class="mini-tag">${c.concept}</span>`).join('')}</div>` : ''}
+            </div>`;
+        }).join('');
+        
+        if (filtered.length > 50) {
+            list.innerHTML += `<div style="text-align:center;padding:20px;color:#8b8b8b;">顯示前 50 筆，共 ${filtered.length} 筆結果</div>`;
+        }
     }
     
     function openNewsModal(id) {
@@ -1167,17 +981,11 @@
                 <span class="meta-tag category">${item.category}</span>
                 <span class="meta-tag" style="background:#fff3e6;color:#c96442;">${item.importance}</span>
             </div>
-            <h2 class="modal-title">${item.company} ${item.stockCode && item.stockCode !== '-' ? `(${item.stockCode})` : ''}</h2>`;
+            <h2 class="modal-title"><span class="company-link" onclick="openStockModal('${item.stockCode}')">${item.company}</span> ${item.stockCode && item.stockCode !== '-' ? `(<span class="company-link" onclick="openStockModal('${item.stockCode}')">${item.stockCode}</span>)` : ''}</h2>`;
         
         document.getElementById('modalBody').innerHTML = `
-            <div class="modal-section">
-                <h3 class="section-title">📝 完整報導內容</h3>
-                <div class="content-block">${content}</div>
-            </div>
-            <div class="modal-section">
-                <h3 class="section-title">🏷️ 相關標籤</h3>
-                <div class="tags-block">${tags.map(t => `<span class="modal-tag" onclick="searchByTag('${t}');closeModal();">#${t}</span>`).join('')}</div>
-            </div>`;
+            <div class="modal-section"><h3 class="section-title">📝 完整報導內容</h3><div class="content-block">${content}</div></div>
+            <div class="modal-section"><h3 class="section-title">🏷️ 相關標籤</h3><div class="tags-block">${tags.map(t => `<span class="modal-tag" onclick="searchByTag('${t}');closeModal();">#${t}</span>`).join('')}</div></div>`;
         openModal();
     }
     
@@ -1187,7 +995,7 @@
         const detail = memoDetails[id] || {};
         const finance = memoFinance[item.company] || {};
         const products = memoProducts[item.company] || {};
-        const timeline = memoTimeline[item.company] || [];
+        const timeline = memoTimeline.filter(t => t.company === item.company);
         const tags = (detail.tags || '').split('#').filter(t => t.trim());
         
         document.getElementById('modalHeaderInfo').innerHTML = `
@@ -1198,91 +1006,28 @@
                 <span class="meta-tag date">${item.date}</span>
                 <span class="meta-tag" style="background:#fff3e6;color:#c96442;">${item.importance}</span>
             </div>
-            <h2 class="modal-title">${item.company} (${item.stockCode})</h2>
+            <h2 class="modal-title"><span class="company-link" onclick="openStockModal('${item.stockCode}')">${item.company}</span> (<span class="company-link" onclick="openStockModal('${item.stockCode}')">${item.stockCode}</span>)</h2>
             <p class="modal-subtitle">${item.type}</p>`;
         
-        let html = '';
+        let html = `<div class="modal-section"><h3 class="section-title">📊 財務數據</h3><div class="info-grid">
+            <div class="info-item"><div class="info-label">營收YoY</div><div class="info-value">${item.revenueYoY}</div></div>
+            <div class="info-item"><div class="info-label">毛利率</div><div class="info-value">${item.grossMargin}</div></div>
+            <div class="info-item"><div class="info-label">EPS</div><div class="info-value">${item.eps}</div></div>
+            ${finance.guidance ? `<div class="info-item"><div class="info-label">4Q25指引</div><div class="info-value">${finance.guidance}</div></div>` : ''}
+        </div></div>`;
         
-        // 財務數據
-        html += `<div class="modal-section">
-            <h3 class="section-title">📊 財務數據</h3>
-            <div class="info-grid">
-                <div class="info-item"><div class="info-label">營收YoY</div><div class="info-value">${item.revenueYoY}</div></div>
-                <div class="info-item"><div class="info-label">毛利率</div><div class="info-value">${item.grossMargin}</div></div>
-                <div class="info-item"><div class="info-label">EPS</div><div class="info-value">${item.eps}</div></div>
-                ${finance.guidance ? `<div class="info-item"><div class="info-label">4Q25指引</div><div class="info-value">${finance.guidance}</div></div>` : ''}
-            </div>
-        </div>`;
-        
-        // 營運重點
-        if (detail.operation) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">🎯 營運重點</h3>
-                <div class="content-block">${detail.operation}</div>
-            </div>`;
-        }
-        
-        // 策略方向
-        if (detail.strategy) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">🚀 策略方向</h3>
-                <div class="content-block">${detail.strategy}</div>
-            </div>`;
-        }
-        
-        // 產品結構
+        if (detail.operation) html += `<div class="modal-section"><h3 class="section-title">🎯 營運重點</h3><div class="content-block">${detail.operation}</div></div>`;
+        if (detail.strategy) html += `<div class="modal-section"><h3 class="section-title">🚀 策略方向</h3><div class="content-block">${detail.strategy}</div></div>`;
         if (products.products && products.products.length > 0) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">📦 產品結構</h3>
-                ${products.products.map(p => `<div class="product-item"><div class="product-name">${p.name}</div><div class="product-ratio">${p.ratio}</div></div>`).join('')}
-                ${products.driver ? `<div style="margin-top:10px;font-size:12px;color:#5a9e6f;">🔥 關鍵成長動能：${products.driver}</div>` : ''}
-            </div>`;
+            html += `<div class="modal-section"><h3 class="section-title">📦 產品結構</h3>${products.products.map(p => `<div class="product-item"><div class="product-name">${p.name}</div><div class="product-ratio">${p.ratio}</div></div>`).join('')}${products.driver ? `<div style="margin-top:10px;font-size:12px;color:#5a9e6f;">🔥 關鍵成長動能：${products.driver}</div>` : ''}</div>`;
         }
-        
-        // 重要QA
-        if (detail.qa) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">❓ 重要QA摘要</h3>
-                <div class="content-block">${detail.qa}</div>
-            </div>`;
-        }
-        
-        // 關鍵時程
+        if (detail.qa) html += `<div class="modal-section"><h3 class="section-title">❓ 重要QA摘要</h3><div class="content-block">${detail.qa}</div></div>`;
         if (timeline.length > 0) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">📅 關鍵時程追蹤</h3>
-                ${timeline.slice(0, 5).map(t => `
-                    <div class="timeline-item">
-                        <div class="timeline-date">${t.time} ${t.importance}</div>
-                        <div class="timeline-event">${t.event}</div>
-                        <div class="timeline-note">${t.impact} | ${t.status}</div>
-                    </div>`).join('')}
-            </div>`;
+            html += `<div class="modal-section"><h3 class="section-title">📅 關鍵時程追蹤</h3>${timeline.slice(0, 5).map(t => `<div class="timeline-item"><div class="timeline-date">${t.time} ${t.importance}</div><div class="timeline-event">${t.event}</div><div class="timeline-note">${t.impact} | ${t.status}</div></div>`).join('')}</div>`;
         }
-        
-        // Rex觀察
-        if (detail.rexView) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">👁️ Rex觀察</h3>
-                <div class="content-block">${detail.rexView}</div>
-            </div>`;
-        }
-        
-        // 後續追蹤
-        if (detail.followUp) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">📌 後續追蹤</h3>
-                <div class="content-block">${detail.followUp}</div>
-            </div>`;
-        }
-        
-        // 標籤
-        if (tags.length > 0) {
-            html += `<div class="modal-section">
-                <h3 class="section-title">🏷️ 標籤</h3>
-                <div class="tags-block">${tags.map(t => `<span class="modal-tag" onclick="searchByTag('${t}');closeModal();">#${t}</span>`).join('')}</div>
-            </div>`;
-        }
+        if (detail.rexView) html += `<div class="modal-section"><h3 class="section-title">👁️ Rex觀察</h3><div class="content-block">${detail.rexView}</div></div>`;
+        if (detail.followUp) html += `<div class="modal-section"><h3 class="section-title">📌 後續追蹤</h3><div class="content-block">${detail.followUp}</div></div>`;
+        if (tags.length > 0) html += `<div class="modal-section"><h3 class="section-title">🏷️ 標籤</h3><div class="tags-block">${tags.map(t => `<span class="modal-tag" onclick="searchByTag('${t}');closeModal();">#${t}</span>`).join('')}</div></div>`;
         
         document.getElementById('modalBody').innerHTML = html;
         openModal();
@@ -1292,7 +1037,7 @@
         const report = reportsData.find(r => r.id === id);
         if (!report) return;
         const details = reportDetails[id] || [];
-        const stocks = stocksData[id] || [];
+        const stocks = reportStocksData[id] || [];
         
         document.getElementById('modalHeaderInfo').innerHTML = `
             <div class="modal-meta">
@@ -1304,18 +1049,9 @@
             ${report.subtitle ? `<p class="modal-subtitle">${report.subtitle}</p>` : ''}`;
         
         let html = '';
-        if (report.highlights.length > 0) {
-            html += `<div class="modal-section"><h3 class="section-title">📌 核心重點</h3>
-                <div class="content-block">${report.highlights.map(h => '• ' + h).join('\n')}</div></div>`;
-        }
-        if (details.length > 0) {
-            html += `<div class="modal-section"><h3 class="section-title">📊 焦點分析</h3>
-                ${details.map(d => `<div style="margin-bottom:12px;"><div style="font-weight:600;color:#c96442;margin-bottom:4px;">${d.sectionTitle}</div><div class="content-block">${d.content}</div></div>`).join('')}</div>`;
-        }
-        if (stocks.length > 0) {
-            html += `<div class="modal-section"><h3 class="section-title">📈 個股評價</h3>
-                <div class="info-grid">${stocks.map(s => `<div class="info-item"><div class="info-label">${s.name} (${s.code})</div><div class="info-value">${s.rating} | 目標價 ${s.target || '-'}</div></div>`).join('')}</div></div>`;
-        }
+        if (report.highlights.length > 0) html += `<div class="modal-section"><h3 class="section-title">📌 核心重點</h3><div class="content-block">${report.highlights.map(h => '• ' + h).join('\n')}</div></div>`;
+        if (details.length > 0) html += `<div class="modal-section"><h3 class="section-title">📊 焦點分析</h3>${details.map(d => `<div style="margin-bottom:12px;"><div style="font-weight:600;color:#c96442;margin-bottom:4px;">${d.sectionTitle}</div><div class="content-block">${d.content}</div></div>`).join('')}</div>`;
+        if (stocks.length > 0) html += `<div class="modal-section"><h3 class="section-title">📈 個股評價</h3><div class="info-grid">${stocks.map(s => `<div class="info-item" style="cursor:pointer;" onclick="openStockModal('${s.code}')"><div class="info-label">${s.name} (${s.code})</div><div class="info-value">${s.rating} | 目標價 ${s.target || '-'}</div></div>`).join('')}</div></div>`;
         
         document.getElementById('modalBody').innerHTML = html;
         openModal();
@@ -1334,32 +1070,75 @@
             <h2 class="modal-title">${item.topic}</h2>`;
         
         document.getElementById('modalBody').innerHTML = `
-            <div class="modal-section">
-                <h3 class="section-title">🏢 相關公司</h3>
-                <div class="tags-block">${item.companies.split('、').map(c => `<span class="modal-tag" onclick="searchByCompany('${c.replace(/\([^)]*\)/g, '').trim()}');closeModal();">🏢 ${c}</span>`).join('')}</div>
-            </div>
-            <div class="modal-section">
-                <h3 class="section-title">📝 完整內容</h3>
-                <div class="content-block">${item.content}</div>
-            </div>
-            <div class="modal-section">
-                <h3 class="section-title">🏷️ 標籤</h3>
-                <div class="tags-block">${tags.map(t => `<span class="modal-tag" onclick="searchByTag('${t}');closeModal();">#${t}</span>`).join('')}</div>
-            </div>`;
+            <div class="modal-section"><h3 class="section-title">🏢 相關公司</h3><div class="tags-block">${item.companies.split('、').map(c => `<span class="modal-tag" onclick="searchByCompany('${c.replace(/\([^)]*\)/g, '').trim()}');closeModal();">🏢 ${c}</span>`).join('')}</div></div>
+            <div class="modal-section"><h3 class="section-title">📝 完整內容</h3><div class="content-block">${item.content}</div></div>
+            <div class="modal-section"><h3 class="section-title">🏷️ 標籤</h3><div class="tags-block">${tags.map(t => `<span class="modal-tag" onclick="searchByTag('${t}');closeModal();">#${t}</span>`).join('')}</div></div>`;
         openModal();
     }
     
-    function openModal() {
-        document.getElementById('modalOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
+    function openStockModal(codeOrName) {
+        const stock = masterStocks[codeOrName] || masterStocks[String(codeOrName)];
+        if (!stock) {
+            alert(`找不到 ${codeOrName} 的資料`);
+            return;
+        }
+        
+        const concepts = conceptStocks.filter(c => c.code === stock.code);
+        const relatedNews = newsData.filter(n => n.stockCode === stock.code || n.company === stock.name).slice(0, 3);
+        const relatedMemo = memoData.filter(m => m.stockCode === stock.code || m.company === stock.name).slice(0, 3);
+        
+        document.getElementById('modalHeaderInfo').innerHTML = `
+            <div class="modal-meta">
+                <span class="meta-tag" style="background:#6b8cce;color:#fff;">${stock.market}</span>
+                <span class="meta-tag industry">${stock.industry}</span>
+                ${stock.hasFutures ? '<span class="meta-tag" style="background:#9b59b6;color:#fff;">有期貨</span>' : ''}
+                ${stock.hasOptions ? '<span class="meta-tag" style="background:#e74c3c;color:#fff;">有選擇權</span>' : ''}
+            </div>
+            <h2 class="modal-title">${stock.name} (${stock.code})</h2>
+            <p class="modal-subtitle">${stock.subIndustry}</p>`;
+        
+        let html = `<div class="modal-section"><h3 class="section-title">📊 基本資料</h3><div class="info-grid">
+            <div class="info-item"><div class="info-label">股價</div><div class="info-value" style="font-size:18px;">${stock.price}</div></div>
+            <div class="info-item"><div class="info-label">漲跌</div><div class="info-value" style="color:${String(stock.changePercent).includes('-') ? '#d64545' : '#2e7d46'};">${stock.change} (${stock.changePercent})</div></div>
+            <div class="info-item"><div class="info-label">成交量</div><div class="info-value">${stock.volume}張</div></div>
+            <div class="info-item"><div class="info-label">市值</div><div class="info-value">${stock.marketCap}億</div></div>
+            <div class="info-item"><div class="info-label">股本</div><div class="info-value">${stock.capital}億</div></div>
+            <div class="info-item"><div class="info-label">面值</div><div class="info-value">${stock.parValue}元</div></div>
+            <div class="info-item"><div class="info-label">成立年數</div><div class="info-value">${stock.foundedYears}年</div></div>
+            <div class="info-item"><div class="info-label">掛牌年數</div><div class="info-value">${stock.listedYears}年</div></div>
+        </div></div>`;
+        
+        html += `<div class="modal-section"><h3 class="section-title">👥 經營團隊</h3><div class="info-grid">
+            <div class="info-item"><div class="info-label">董事長</div><div class="info-value">${stock.chairman}</div></div>
+            <div class="info-item"><div class="info-label">總經理</div><div class="info-value">${stock.ceo}</div></div>
+            ${stock.group ? `<div class="info-item"><div class="info-label">相關集團</div><div class="info-value">${stock.group}</div></div>` : ''}
+        </div></div>`;
+        
+        if (stock.business) html += `<div class="modal-section"><h3 class="section-title">💼 業務摘要</h3><div class="content-block">${stock.business}</div></div>`;
+        
+        if (concepts.length > 0) {
+            html += `<div class="modal-section"><h3 class="section-title">💡 概念股族群</h3>
+                ${concepts.map(c => `<div class="product-item"><div class="product-name">${c.concept}</div><div class="product-ratio">${c.subRole} - ${c.description}</div><div style="font-size:10px;color:#8b8b8b;margin-top:4px;">${c.importance} | ${c.duration}</div></div>`).join('')}</div>`;
+        }
+        
+        if (relatedNews.length > 0) {
+            html += `<div class="modal-section"><h3 class="section-title">📰 相關外電報導</h3>
+                ${relatedNews.map(n => `<div class="timeline-item" onclick="closeModal();setTimeout(()=>openNewsModal('${n.id}'),100);" style="cursor:pointer;"><div class="timeline-date">${n.date} | ${n.broker}</div><div class="timeline-event">${n.category}</div></div>`).join('')}</div>`;
+        }
+        
+        if (relatedMemo.length > 0) {
+            html += `<div class="modal-section"><h3 class="section-title">📋 相關 Call Memo</h3>
+                ${relatedMemo.map(m => `<div class="timeline-item" onclick="closeModal();setTimeout(()=>openMemoModal('${m.id}'),100);" style="cursor:pointer;"><div class="timeline-date">${m.date} | ${m.broker}</div><div class="timeline-event">${m.type}</div></div>`).join('')}</div>`;
+        }
+        
+        html += `<div style="text-align:center;margin-top:20px;padding-top:15px;border-top:1px solid #eceae3;font-size:11px;color:#8b8b8b;">資料更新日期：${stock.updateDate}</div>`;
+        
+        document.getElementById('modalBody').innerHTML = html;
+        openModal();
     }
     
-    function closeModal(e) {
-        if (e && e.target !== document.getElementById('modalOverlay')) return;
-        document.getElementById('modalOverlay').classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
+    function openModal() { document.getElementById('modalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeModal(e) { if (e && e.target !== document.getElementById('modalOverlay')) return; document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow = ''; }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 ```
