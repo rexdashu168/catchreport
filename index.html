@@ -466,6 +466,112 @@
         if (renderers[currentDB]) renderers[currentDB]();
     }
     
+    function renderNews() {
+        let filtered = newsData.filter(item => {
+            if (activeFilters.search) { const st = [item.company,item.stockCode,item.broker,item.category,item.tags,newsContent[item.id]||''].join(' ').toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
+            if (activeFilters.tag && !item.tags.includes(activeFilters.tag)) return false;
+            if (activeFilters.broker && item.broker !== activeFilters.broker) return false;
+            if (activeFilters.category && item.category !== activeFilters.category) return false;
+            if (activeFilters.importance && item.importance !== activeFilters.importance) return false;
+            return true;
+        });
+        if (currentSort==='importance') filtered.sort((a,b)=>(b.importance?.length||0)-(a.importance?.length||0));
+        else filtered.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length===0) { list.innerHTML = '<div class="empty-state"><p>🔍 沒有符合條件的報導</p></div>'; return; }
+        list.innerHTML = filtered.map(item => {
+            const content = newsContent[item.id]||'';
+            const preview = content.replace(/•/g,'').substring(0,100);
+            const tags = item.tags.split('#').filter(t=>t.trim()).slice(0,3);
+            return '<div class="card-base" onclick="openNewsModal(\''+item.id+'\')"><div class="card-header"><div class="card-left"><span class="company-name company-link" onclick="event.stopPropagation();openStockModal(\''+item.stockCode+'\')">'+item.company+'</span>'+(item.stockCode&&item.stockCode!=='-'?'<span class="stock-code" onclick="event.stopPropagation();openStockModal(\''+item.stockCode+'\')">'+item.stockCode+'</span>':'')+'</div><span class="importance">'+item.importance+'</span></div><div class="card-meta"><span class="meta-tag broker">'+item.broker+'</span><span class="meta-tag category">'+item.category+'</span><span class="meta-tag date">'+item.date+'</span></div><div class="card-content">'+preview+'...</div><div class="card-tags">'+tags.map(t=>'<span class="mini-tag" onclick="event.stopPropagation();searchByTag(\''+t.trim()+'\')">#'+t.trim()+'</span>').join('')+'</div></div>';
+        }).join('');
+    }
+    
+    function renderMemo() {
+        let filtered = memoReports.filter(item => {
+            const detail = memoDetails[item.id]||{};
+            if (activeFilters.search) { const st = [item.company,item.stockCode,item.broker,item.analyst,item.industry,detail.operation||'',detail.strategy||'',detail.tags||''].join(' ').toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
+            if (activeFilters.tag && !(detail.tags||'').includes(activeFilters.tag)) return false;
+            if (activeFilters.broker && item.broker !== activeFilters.broker) return false;
+            if (activeFilters.importance && item.importance !== activeFilters.importance) return false;
+            if (activeFilters.industry && item.industry !== activeFilters.industry) return false;
+            return true;
+        });
+        if (currentSort==='importance') filtered.sort((a,b)=>(b.importance?.length||0)-(a.importance?.length||0));
+        else filtered.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length===0) { list.innerHTML = '<div class="empty-state"><p>🔍 沒有符合條件的報告</p></div>'; return; }
+        list.innerHTML = filtered.map(item => {
+            const detail = memoDetails[item.id]||{};
+            const tracking = memoTracking[item.id]||{};
+            const preview = (detail.operation||'').substring(0,100);
+            const tags = (detail.tags||'').split('#').filter(t=>t.trim()).slice(0,3);
+            return '<div class="card-base" onclick="openMemoModal(\''+item.id+'\')"><div class="card-header"><div class="card-left"><span class="company-name company-link" onclick="event.stopPropagation();openStockModal(\''+item.stockCode+'\')">'+item.company+'</span><span class="stock-code" onclick="event.stopPropagation();openStockModal(\''+item.stockCode+'\')">'+item.stockCode+'</span></div><span class="importance">'+item.importance+'</span></div><div class="card-meta"><span class="meta-tag broker">'+item.broker+'</span><span class="meta-tag industry">'+item.industry+'</span><span class="meta-tag analyst">'+item.analyst+'</span><span class="meta-tag date">'+item.date+'</span>'+(tracking.trackStatus?'<span class="meta-tag trend">'+tracking.trackStatus+'</span>':'')+'</div><div class="card-content">'+preview+'...</div><div class="card-data"><div class="data-item"><span class="data-label">營收YoY </span><span class="data-value '+(item.revenueYoY.includes('+')?'positive':'')+'">'+item.revenueYoY+'</span></div><div class="data-item"><span class="data-label">毛利率 </span><span class="data-value">'+item.grossMargin+'</span></div><div class="data-item"><span class="data-label">EPS </span><span class="data-value">'+item.eps+'</span></div></div><div class="card-tags" style="margin-top:8px;">'+tags.map(t=>'<span class="mini-tag" onclick="event.stopPropagation();searchByTag(\''+t.trim()+'\')">#'+t.trim()+'</span>').join('')+'</div></div>';
+        }).join('');
+    }
+    
+    function renderReports() {
+        let filtered = reportsData.filter(report => {
+            if (activeFilters.search) { const st = [report.title,report.subtitle,report.broker,report.industry,report.highlights.join(' ')].join(' ').toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
+            if (activeFilters.broker && report.broker !== activeFilters.broker) return false;
+            if (activeFilters.industry && report.industry !== activeFilters.industry) return false;
+            return true;
+        });
+        filtered.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length===0) { list.innerHTML = '<div class="empty-state"><p>🔍 沒有符合條件的報告</p></div>'; return; }
+        list.innerHTML = filtered.map(report => {
+            const stocks = reportStocksData[report.id]||[];
+            return '<div class="card-base" onclick="openReportModal(\''+report.id+'\')"><div class="card-meta"><span class="meta-tag broker">'+report.broker+'</span><span class="meta-tag industry">'+report.industry+'</span><span class="meta-tag date">'+report.date+'</span></div><div class="company-name" style="margin:8px 0 4px;font-size:16px;">'+report.title+'</div>'+(report.subtitle?'<div style="font-size:13px;color:#6b6b6b;margin-bottom:8px;">'+report.subtitle+'</div>':'')+(report.rating?'<span class="meta-tag" style="background:#e8f5ec;color:#2e7d46;">'+report.rating+'</span>':'')+'<div class="card-content" style="margin-top:8px;">'+report.highlights.slice(0,2).join(' / ')+'</div>'+(stocks.length>0?'<div class="card-tags" style="margin-top:8px;">'+stocks.slice(0,4).map(s=>'<span class="mini-tag" onclick="event.stopPropagation();openStockModal(\''+s.code+'\')">'+s.name+'</span>').join('')+'</div>':'')+'</div>';
+        }).join('');
+    }
+    
+    function renderTrends() {
+        let filtered = trendsData.filter(item => {
+            if (activeFilters.search) { const st = [item.topic,item.broker,item.content,item.companies,item.tags].join(' ').toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
+            if (activeFilters.tag && !item.tags.includes(activeFilters.tag)) return false;
+            if (activeFilters.broker && item.broker !== activeFilters.broker) return false;
+            return true;
+        });
+        filtered.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length===0) { list.innerHTML = '<div class="empty-state"><p>🔍 沒有符合條件的趨勢</p></div>'; return; }
+        list.innerHTML = filtered.map(item => {
+            const tags = item.tags.split('#').filter(t=>t.trim()).slice(0,3);
+            return '<div class="card-base trend-card" onclick="openTrendModal(\''+item.id+'\')"><span class="trend-badge">📈 產業趨勢</span><div class="card-meta"><span class="meta-tag broker">'+item.broker+'</span><span class="meta-tag date">'+item.date+'</span></div><div class="company-name" style="margin:8px 0;">'+item.topic+'</div><div style="font-size:12px;color:#5a9e6f;margin-bottom:8px;">📌 '+item.companies+'</div><div class="card-content">'+item.content.substring(0,80)+'...</div><div class="card-tags" style="margin-top:8px;">'+tags.map(t=>'<span class="mini-tag" onclick="event.stopPropagation();searchByTag(\''+t.trim()+'\')">#'+t.trim()+'</span>').join('')+'</div></div>';
+        }).join('');
+    }
+    
+    function renderIndustry() {
+        let filtered = memoIndustryTrends.filter(item => {
+            if (activeFilters.search) { const st = [item.industry,item.trend,item.companies,item.driver,item.suggestion].join(' ').toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
+            if (activeFilters.industry && item.industry !== activeFilters.industry) return false;
+            return true;
+        });
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length===0) { list.innerHTML = '<div class="empty-state"><p>🔍 沒有符合條件的產業</p></div>'; return; }
+        list.innerHTML = filtered.map((item,idx) => '<div class="card-base industry-card" onclick="openIndustryModal('+idx+')"><span class="industry-badge">'+item.trend+'</span><div class="card-header"><div class="card-left"><span class="company-name">'+item.industry+'</span></div><span class="meta-tag trend">'+item.position+'</span></div><div style="font-size:12px;color:#9b59b6;margin:8px 0;">📌 '+item.companies+'</div><div class="card-content">'+item.driver+'</div>'+(item.suggestion?'<div style="margin-top:8px;padding:8px;background:#f8f4ff;border-radius:8px;font-size:12px;color:#9b59b6;">💡 '+item.suggestion+'</div>':'')+'</div>').join('');
+    }
+    
+    function renderTimeline() {
+        let filtered = memoTimeline.filter(item => {
+            if (activeFilters.search) { const st = [item.company,item.stockCode,item.event,item.type,item.note].join(' ').toLowerCase(); if (!st.includes(activeFilters.search)) return false; }
+            if (activeFilters.importance && item.importance !== activeFilters.importance) return false;
+            return true;
+        });
+        if (currentSort==='importance') filtered.sort((a,b)=>(b.importance?.length||0)-(a.importance?.length||0));
+        else filtered.sort((a,b)=>String(a.time).localeCompare(String(b.time)));
+        document.getElementById('filteredCount').textContent = filtered.length;
+        const list = document.getElementById('reportsList');
+        if (filtered.length===0) { list.innerHTML = '<div class="empty-state"><p>🔍 沒有符合條件的時程</p></div>'; return; }
+        list.innerHTML = filtered.map((item,idx) => '<div class="card-base" onclick="openTimelineModal('+idx+')"><div class="card-header"><div class="card-left"><span class="company-name company-link" onclick="event.stopPropagation();openStockModal(\''+item.stockCode+'\')">'+item.company+'</span><span class="stock-code" onclick="event.stopPropagation();openStockModal(\''+item.stockCode+'\')">'+item.stockCode+'</span></div><span class="importance">'+item.importance+'</span></div><div class="card-meta"><span class="meta-tag date">📅 '+item.time+'</span><span class="meta-tag category">'+item.type+'</span><span class="meta-tag trend">'+item.status+'</span></div><div class="company-name" style="margin:8px 0;font-size:14px;">'+item.event+'</div><div class="card-content">'+item.impact+'</div>'+(item.note?'<div style="margin-top:8px;font-size:11px;color:#8b8b8b;">📝 '+item.note+'</div>':'')+'</div>').join('');
+    }
+    
     function renderStocks() {
         const uniqueStocks = {};
         Object.values(masterStocks).forEach(s => { if (s.code && !uniqueStocks[s.code]) { uniqueStocks[s.code] = s; } });
