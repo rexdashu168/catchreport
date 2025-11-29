@@ -1,493 +1,1166 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rex大叔自動收錄系統 - 最終版</title>
+    <title>券商研究報告資料庫</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Microsoft JhengHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-        
-        .status-bar {
-            background: #f8f9fa;
-            padding: 15px 40px;
-            border-bottom: 2px solid #e9ecef;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #dc3545;
-            animation: pulse 2s infinite;
-        }
-        
-        .status-dot.connected {
-            background: #28a745;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .main-content {
-            padding: 40px;
-        }
-        
-        .input-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .panel {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-        }
-        
-        .panel-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        textarea {
-            width: 100%;
-            min-height: 500px;
-            padding: 15px;
-            border: 2px solid #e1e4e8;
-            border-radius: 10px;
-            font-size: 14px;
-            font-family: 'Microsoft JhengHei', monospace;
-            line-height: 1.8;
-            resize: vertical;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        button {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-        
-        .result-section {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            border: 2px solid #e9ecef;
-            min-height: 200px;
-        }
-        
-        .result-item {
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .result-item h4 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        .result-item p {
-            color: #666;
-            line-height: 1.6;
-            margin: 5px 0;
-        }
-        
-        .success {
-            border-left-color: #28a745;
-        }
-        
-        .success h4 {
-            color: #28a745;
-        }
-        
-        .error {
-            border-left-color: #dc3545;
-        }
-        
-        .error h4 {
-            color: #dc3545;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .download-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .download-link {
-            flex: 1;
-            padding: 12px;
-            background: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .download-link:hover {
-            background: #218838;
-            transform: translateY(-2px);
-        }
-        
-        .hint-box {
-            background: #e7f3ff;
-            border-left: 4px solid #0066cc;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 8px;
-        }
-        
-        .hint-box h4 {
-            color: #0066cc;
-            margin-bottom: 10px;
-        }
-    </style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+```
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        min-height: 100vh;
+        color: #e8e8e8;
+    }
+    
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .header {
+        text-align: center;
+        padding: 30px 0 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 25px;
+    }
+    
+    .header h1 {
+        font-size: 28px;
+        background: linear-gradient(90deg, #00d4ff, #7b68ee);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 8px;
+    }
+    
+    .header .subtitle {
+        color: #888;
+        font-size: 14px;
+    }
+    
+    .update-info {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px;
+        font-size: 13px;
+        color: #666;
+    }
+    
+    /* 載入狀態 */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(26,26,46,0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+    
+    .loading-overlay.hidden {
+        display: none;
+    }
+    
+    .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(0,212,255,0.2);
+        border-top-color: #00d4ff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+        color: #888;
+        font-size: 14px;
+    }
+    
+    .error-message {
+        text-align: center;
+        padding: 60px 20px;
+        color: #ff6b6b;
+    }
+    
+    .error-message h2 {
+        margin-bottom: 15px;
+    }
+    
+    .retry-btn {
+        margin-top: 20px;
+        padding: 12px 30px;
+        background: linear-gradient(90deg, #00d4ff, #7b68ee);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    
+    /* 搜尋篩選區 */
+    .search-section {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+    
+    .search-row {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+    
+    .search-input-wrapper {
+        flex: 2;
+        min-width: 250px;
+        position: relative;
+    }
+    
+    .search-input-wrapper::before {
+        content: "🔍";
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+    }
+    
+    #searchInput {
+        width: 100%;
+        padding: 12px 12px 12px 40px;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 10px;
+        background: rgba(0,0,0,0.3);
+        color: #fff;
+        font-size: 15px;
+    }
+    
+    #searchInput:focus {
+        outline: none;
+        border-color: #00d4ff;
+        box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+    
+    .filter-select {
+        flex: 1;
+        min-width: 150px;
+    }
+    
+    .filter-select select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 10px;
+        background: rgba(0,0,0,0.3);
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    
+    .filter-select select:focus {
+        outline: none;
+        border-color: #00d4ff;
+    }
+    
+    .tags-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
+    
+    .tags-label {
+        font-size: 13px;
+        color: #888;
+        margin-right: 5px;
+    }
+    
+    .tag {
+        padding: 6px 14px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 20px;
+        font-size: 13px;
+        color: #ccc;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .tag:hover {
+        background: rgba(0,212,255,0.15);
+        border-color: rgba(0,212,255,0.4);
+    }
+    
+    .tag.active {
+        background: linear-gradient(90deg, rgba(0,212,255,0.3), rgba(123,104,238,0.3));
+        border-color: #00d4ff;
+        color: #fff;
+    }
+    
+    .clear-btn {
+        padding: 6px 14px;
+        background: rgba(255,107,107,0.2);
+        border: 1px solid rgba(255,107,107,0.4);
+        border-radius: 20px;
+        font-size: 13px;
+        color: #ff6b6b;
+        cursor: pointer;
+        margin-left: auto;
+    }
+    
+    .clear-btn:hover {
+        background: rgba(255,107,107,0.3);
+    }
+    
+    .stats-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .stats-text {
+        font-size: 14px;
+        color: #888;
+    }
+    
+    .stats-text strong {
+        color: #00d4ff;
+    }
+    
+    /* 報告列表 */
+    .reports-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 20px;
+    }
+    
+    .report-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .report-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(0,212,255,0.4);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+    
+    .card-broker {
+        font-size: 12px;
+        color: #00d4ff;
+        padding: 3px 10px;
+        background: rgba(0,212,255,0.15);
+        border-radius: 12px;
+    }
+    
+    .card-date {
+        font-size: 12px;
+        color: #666;
+    }
+    
+    .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 6px;
+        line-height: 1.4;
+    }
+    
+    .card-subtitle {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 12px;
+    }
+    
+    .card-industry {
+        display: inline-block;
+        font-size: 12px;
+        color: #7b68ee;
+        padding: 4px 12px;
+        background: rgba(123,104,238,0.15);
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .card-rating {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .rating-label {
+        font-size: 12px;
+        color: #888;
+    }
+    
+    .rating-value {
+        font-size: 13px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 8px;
+    }
+    
+    .rating-value.positive {
+        background: rgba(81,207,102,0.2);
+        color: #51cf66;
+    }
+    
+    .rating-value.neutral {
+        background: rgba(255,193,7,0.2);
+        color: #ffc107;
+    }
+    
+    .card-highlights {
+        border-top: 1px solid rgba(255,255,255,0.08);
+        padding-top: 12px;
+    }
+    
+    .highlight-item {
+        font-size: 13px;
+        color: #aaa;
+        padding: 4px 0;
+        padding-left: 15px;
+        position: relative;
+        line-height: 1.5;
+    }
+    
+    .highlight-item::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #00d4ff;
+    }
+    
+    .card-stocks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+    }
+    
+    .stock-tag {
+        font-size: 11px;
+        padding: 3px 8px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 6px;
+        color: #ccc;
+    }
+    
+    /* 彈窗 */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.85);
+        z-index: 1000;
+        display: none;
+        overflow-y: auto;
+        padding: 30px 20px;
+    }
+    
+    .modal-overlay.active {
+        display: block;
+    }
+    
+    .modal-content {
+        max-width: 900px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, #1e1e30 0%, #252540 100%);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    .modal-header {
+        padding: 25px 30px;
+        background: rgba(0,0,0,0.3);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    
+    .modal-header-info {
+        flex: 1;
+    }
+    
+    .modal-broker-date {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+    
+    .modal-broker {
+        color: #00d4ff;
+    }
+    
+    .modal-date {
+        color: #888;
+    }
+    
+    .modal-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 5px;
+    }
+    
+    .modal-subtitle {
+        font-size: 16px;
+        color: #aaa;
+    }
+    
+    .modal-close {
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+        margin-left: 20px;
+    }
+    
+    .modal-close:hover {
+        background: rgba(255,107,107,0.3);
+    }
+    
+    .modal-body {
+        padding: 30px;
+    }
+    
+    .modal-section {
+        margin-bottom: 25px;
+    }
+    
+    .modal-section:last-child {
+        margin-bottom: 0;
+    }
+    
+    .section-title {
+        font-size: 14px;
+        color: #00d4ff;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(0,212,255,0.2);
+    }
+    
+    .key-points-list {
+        list-style: none;
+    }
+    
+    .key-points-list li {
+        padding: 10px 0;
+        padding-left: 20px;
+        position: relative;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        color: #ccc;
+        line-height: 1.6;
+    }
+    
+    .key-points-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .key-points-list li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: #00d4ff;
+    }
+    
+    .stocks-table-wrapper {
+        overflow-x: auto;
+    }
+    
+    .stocks-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+    
+    .stocks-table th {
+        background: rgba(0,0,0,0.3);
+        padding: 10px 12px;
+        text-align: left;
+        color: #888;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    
+    .stocks-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        color: #ccc;
+    }
+    
+    .stocks-table tr:hover td {
+        background: rgba(255,255,255,0.03);
+    }
+    
+    .stock-name {
+        font-weight: 600;
+        color: #fff;
+    }
+    
+    .stock-code {
+        color: #888;
+        font-size: 11px;
+    }
+    
+    .stock-rating {
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .stock-rating.buy {
+        background: rgba(81,207,102,0.2);
+        color: #51cf66;
+    }
+    
+    .stock-rating.hold {
+        background: rgba(255,193,7,0.2);
+        color: #ffc107;
+    }
+    
+    .viewpoint-card {
+        background: rgba(0,0,0,0.2);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .viewpoint-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 10px;
+    }
+    
+    .viewpoint-content {
+        color: #aaa;
+        line-height: 1.7;
+    }
+    
+    .picks-row {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .pick-item {
+        background: rgba(0,212,255,0.1);
+        border: 1px solid rgba(0,212,255,0.2);
+        border-radius: 10px;
+        padding: 12px 15px;
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .pick-stock {
+        font-weight: 600;
+        color: #00d4ff;
+        margin-bottom: 5px;
+    }
+    
+    .pick-reason {
+        font-size: 12px;
+        color: #888;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+    
+    .empty-state .icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+    
+    @media (max-width: 768px) {
+        .container { padding: 15px; }
+        .header h1 { font-size: 22px; }
+        .reports-grid { grid-template-columns: 1fr; }
+        .modal-body { padding: 20px; }
+        .modal-title { font-size: 20px; }
+    }
+</style>
+```
+
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🚀 Rex大叔自動收錄系統</h1>
-            <p>100%自動化 | Python後端 | AI智能分析</p>
-        </div>
-        
-        <div class="status-bar">
-            <div class="status-indicator">
-                <div class="status-dot" id="statusDot"></div>
-                <span id="statusText">檢查服務連線中...</span>
-            </div>
-            <div id="stats" style="color: #666;">
-                <span id="totalReports">-</span> 份報告 | 
-                <span id="totalEvents">-</span> 個事件
-            </div>
-        </div>
-        
-        <div class="main-content">
-            <div class="input-section">
-                <div class="panel">
-                    <div class="panel-title">
-                        📝 貼上Call Memo或研究報告
-                    </div>
-                    <textarea id="reportInput" placeholder="直接在這裡貼上完整的Call Memo、法說會紀錄或研究報告...
-
-範例格式:
-☎️元大投顧 蘇子錚
-Call Memo_2356英業達
-2025/11/11 法說會
-
-[完整報告內容]
-
-系統會自動識別:
-✓ 公司名稱、股票代號
-✓ 券商、分析師
-✓ 報告日期、類型
-✓ 財務數據
-✓ 產品結構
-✓ 熱門事件
-✓ 關鍵時程"></textarea>
-                    
-                    <div class="hint-box">
-                        <h4>💡 使用提示:</h4>
-                        <ul style="margin-left: 20px; line-height: 2;">
-                            <li>直接複製貼上完整報告文字</li>
-                            <li>支援Call Memo、法說會、研究報告</li>
-                            <li>不需要任何格式調整</li>
-                            <li>AI自動提取所有關鍵資訊</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button class="btn-primary" id="analyzeBtn" onclick="analyzeReport()">
-                            🤖 AI智能分析收錄
-                        </button>
-                        <button class="btn-secondary" onclick="clearInput()">
-                            🔄 清空
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="panel">
-                    <div class="panel-title">
-                        📊 分析結果
-                    </div>
-                    <div class="result-section" id="resultSection">
-                        <div class="result-item">
-                            <h4>等待分析...</h4>
-                            <p>貼上報告文字後點擊「AI智能分析收錄」</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- 載入中畫面 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在載入報告資料...</div>
     </div>
 
-    <script>
-        const API_URL = 'http://localhost:5000';
-        let isServiceRunning = false;
+```
+<div class="container">
+    <div class="header">
+        <h1>📊 券商研究報告資料庫</h1>
+        <p class="subtitle">Rex大叔投資研究室</p>
+        <div class="update-info">
+            <span id="lastUpdate">📅 載入中...</span>
+            <span id="reportCount">📑 -- 份報告</span>
+        </div>
+    </div>
+    
+    <!-- 搜尋篩選區 -->
+    <div class="search-section">
+        <div class="search-row">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="搜尋報告標題、產業、券商、個股代號...">
+            </div>
+            <div class="filter-select">
+                <select id="brokerFilter">
+                    <option value="">所有券商</option>
+                </select>
+            </div>
+            <div class="filter-select">
+                <select id="ratingFilter">
+                    <option value="">所有評等</option>
+                    <option value="優於大盤">優於大盤</option>
+                    <option value="持平">持平</option>
+                    <option value="劣於大盤">劣於大盤</option>
+                </select>
+            </div>
+        </div>
+        <div class="tags-section" id="tagsSection">
+            <span class="tags-label">快速篩選：</span>
+            <button class="clear-btn" onclick="clearAll()">清除全部</button>
+        </div>
+    </div>
+    
+    <div class="stats-bar">
+        <div class="stats-text">
+            共 <strong id="totalCount">0</strong> 份報告，
+            篩選結果 <strong id="filteredCount">0</strong> 份
+        </div>
+    </div>
+    
+    <div class="reports-grid" id="reportsGrid"></div>
+</div>
 
-        // 檢查服務狀態
-        async function checkServiceStatus() {
-            try {
-                const response = await fetch(`${API_URL}/status`);
-                if (response.ok) {
-                    const data = await response.json();
-                    isServiceRunning = true;
-                    document.getElementById('statusDot').classList.add('connected');
-                    document.getElementById('statusText').textContent = '✅ 服務運行中';
-                    document.getElementById('totalReports').textContent = data.total_reports || 0;
-                    document.getElementById('totalEvents').textContent = data.total_events || 0;
-                } else {
-                    throw new Error('Service not responding');
-                }
-            } catch (error) {
-                isServiceRunning = false;
-                document.getElementById('statusDot').classList.remove('connected');
-                document.getElementById('statusText').textContent = '❌ 服務未啟動 (請執行 2_Start_Service_Simple.bat)';
+<!-- 詳細內容彈窗 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <div class="modal-header-info">
+                <div class="modal-broker-date">
+                    <span class="modal-broker" id="modalBroker"></span>
+                    <span class="modal-date" id="modalDate"></span>
+                    <span id="modalIndustry" style="color:#7b68ee;"></span>
+                </div>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-subtitle" id="modalSubtitle"></p>
+            </div>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+    // ========== 設定區 ==========
+    // Excel 檔案名稱（與 index.html 放在同一目錄）
+    const EXCEL_FILE = '投資展望報告收集模板_更新版.xlsx';
+    // ============================
+    
+    let allReports = [];
+    let reportDetails = {};
+    let stocksData = {};
+    let viewpointsData = {};
+    let activeTag = null;
+    
+    // 頁面載入時自動讀取 Excel
+    window.onload = function() {
+        loadExcelData();
+    };
+    
+    async function loadExcelData() {
+        try {
+            const response = await fetch(EXCEL_FILE);
+            if (!response.ok) {
+                throw new Error(`找不到檔案：${EXCEL_FILE}`);
             }
-        }
-
-        // 分析報告
-        async function analyzeReport() {
-            const reportText = document.getElementById('reportInput').value.trim();
             
-            if (!reportText) {
-                showError('請先貼上報告內容');
-                return;
-            }
-
-            if (!isServiceRunning) {
-                showError('服務未啟動!<br>請先執行 2_Start_Service_Simple.bat 啟動服務');
-                return;
-            }
-
-            const analyzeBtn = document.getElementById('analyzeBtn');
-            analyzeBtn.disabled = true;
-            analyzeBtn.textContent = '🔄 分析中...';
-
-            showLoading();
-
-            try {
-                const response = await fetch(`${API_URL}/analyze`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        text: reportText
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.status === 'success') {
-                    showSuccess(data);
-                    checkServiceStatus(); // 更新統計
-                } else {
-                    showError(data.error || '分析失敗,請檢查報告格式');
-                }
-            } catch (error) {
-                showError('連線失敗!請確認:<br>1. 服務是否啟動 (執行 2_Start_Service_Simple.bat)<br>2. API Key是否正確設定');
-            } finally {
-                analyzeBtn.disabled = false;
-                analyzeBtn.textContent = '🤖 AI智能分析收錄';
-            }
-        }
-
-        function showLoading() {
-            document.getElementById('resultSection').innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <h3 style="color: #667eea;">🤖 AI分析中...</h3>
-                    <p style="color: #666; margin-top: 10px;">正在使用Claude API分析報告內容,請稍候...</p>
+            const arrayBuffer = await response.arrayBuffer();
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            
+            parseWorkbook(workbook);
+            buildFilters();
+            renderReports(allReports);
+            
+            document.getElementById('lastUpdate').textContent = `📅 ${new Date().toLocaleDateString('zh-TW')}`;
+            document.getElementById('reportCount').textContent = `📑 ${allReports.length} 份報告`;
+            document.getElementById('loadingOverlay').classList.add('hidden');
+            
+        } catch (error) {
+            console.error('載入失敗:', error);
+            document.getElementById('loadingOverlay').innerHTML = `
+                <div class="error-message">
+                    <h2>❌ 載入失敗</h2>
+                    <p>${error.message}</p>
+                    <p style="color:#888;margin-top:10px;">請確認 ${EXCEL_FILE} 檔案存在於同一目錄</p>
+                    <button class="retry-btn" onclick="location.reload()">重新載入</button>
                 </div>
             `;
         }
-
-        function showSuccess(data) {
-            document.getElementById('resultSection').innerHTML = `
-                <div class="result-item success">
-                    <h4>✅ 收錄完成!</h4>
-                    <p><strong>報告編號:</strong> ${data.report_number}</p>
-                    <p><strong>公司:</strong> ${data.company} (${data.stock_code})</p>
-                    <p><strong>收錄事件:</strong> ${data.events_count}個</p>
-                    ${data.events && data.events.length > 0 ? `
-                        <p style="margin-top: 10px;"><strong>事件清單:</strong></p>
-                        <ul style="margin-left: 20px; margin-top: 5px;">
-                            ${data.events.map(e => `<li>${e}</li>`).join('')}
-                        </ul>
+    }
+    
+    function parseWorkbook(workbook) {
+        allReports = [];
+        reportDetails = {};
+        stocksData = {};
+        viewpointsData = {};
+        
+        // 解析報告總覽
+        const overviewSheet = workbook.Sheets['報告總覽'];
+        if (overviewSheet) {
+            const data = XLSX.utils.sheet_to_json(overviewSheet);
+            data.forEach(row => {
+                if (!row['報告編號']) return;
+                
+                const report = {
+                    id: row['報告編號'],
+                    broker: row['券商名稱'] || '',
+                    date: formatDate(row['報告日期']),
+                    type: row['報告類型'] || '',
+                    market: row['市場別'] || '',
+                    industry: row['產業名稱'] || '',
+                    title: row['報告標題'] || '',
+                    subtitle: row['副標題'] || '',
+                    rating: row['產業評等'] || '',
+                    analyst: row['分析師姓名'] || '',
+                    phone: row['分析師電話'] || '',
+                    email: row['分析師Email'] || '',
+                    highlights: []
+                };
+                
+                for (let i = 1; i <= 5; i++) {
+                    if (row[`核心重點${i}`]) {
+                        report.highlights.push(row[`核心重點${i}`]);
+                    }
+                }
+                
+                allReports.push(report);
+            });
+        }
+        
+        // 解析焦點分析內容
+        const detailSheet = workbook.Sheets['焦點分析內容'];
+        if (detailSheet) {
+            const data = XLSX.utils.sheet_to_json(detailSheet);
+            data.forEach(row => {
+                if (!row['報告編號']) return;
+                const id = row['報告編號'];
+                if (!reportDetails[id]) reportDetails[id] = [];
+                reportDetails[id].push({
+                    sectionNo: row['段落編號'],
+                    sectionTitle: row['段落標題'] || '',
+                    content: row['段落內容'] || '',
+                    marketSize: row['市場規模數據'] || '',
+                    growthRate: row['成長率數據'] || '',
+                    source: row['資料來源'] || ''
+                });
+            });
+        }
+        
+        // 解析個股評價表
+        const stocksSheet = workbook.Sheets['個股評價表'];
+        if (stocksSheet) {
+            const data = XLSX.utils.sheet_to_json(stocksSheet);
+            data.forEach(row => {
+                if (!row['報告編號']) return;
+                const id = row['報告編號'];
+                if (!stocksData[id]) stocksData[id] = [];
+                stocksData[id].push({
+                    name: row['公司名稱'] || '',
+                    code: row['股票代號'] || '',
+                    rating: row['評等'] || '',
+                    price: row['收盤價'],
+                    target: row['目標價'],
+                    eps25: row['EPS_FY25F'],
+                    eps26: row['EPS_FY26F'],
+                    pe25: row['PE_FY25F'],
+                    pe26: row['PE_FY26F'],
+                    product: row['主要產品'] || '',
+                    market: row['終端應用市場'] || '',
+                    highlight: row['投資亮點'] || ''
+                });
+            });
+        }
+        
+        // 解析券商觀點結論
+        const viewpointSheet = workbook.Sheets['券商觀點結論'];
+        if (viewpointSheet) {
+            const data = XLSX.utils.sheet_to_json(viewpointSheet);
+            data.forEach(row => {
+                if (!row['報告編號']) return;
+                const id = row['報告編號'];
+                if (!viewpointsData[id]) viewpointsData[id] = [];
+                
+                const picks = [];
+                for (let i = 1; i <= 3; i++) {
+                    if (row[`首選個股${i}`]) {
+                        picks.push({
+                            stock: row[`首選個股${i}`],
+                            reason: row[`首選理由${i}`] || ''
+                        });
+                    }
+                }
+                
+                viewpointsData[id].push({
+                    type: row['觀點類型'] || '',
+                    title: row['觀點標題'] || '',
+                    content: row['觀點內容'] || '',
+                    picks: picks,
+                    risk: row['風險提醒'] || ''
+                });
+            });
+        }
+    }
+    
+    function formatDate(dateValue) {
+        if (!dateValue) return '';
+        if (typeof dateValue === 'string') return dateValue;
+        if (typeof dateValue === 'number') {
+            const date = new Date((dateValue - 25569) * 86400 * 1000);
+            return date.toLocaleDateString('zh-TW');
+        }
+        return String(dateValue);
+    }
+    
+    function buildFilters() {
+        // 券商選項
+        const brokers = [...new Set(allReports.map(r => r.broker).filter(Boolean))];
+        const brokerSelect = document.getElementById('brokerFilter');
+        brokerSelect.innerHTML = '<option value="">所有券商</option>';
+        brokers.forEach(b => {
+            brokerSelect.innerHTML += `<option value="${b}">${b}</option>`;
+        });
+        
+        // 產業標籤
+        const industries = [...new Set(allReports.map(r => r.industry).filter(Boolean))];
+        const tagsSection = document.getElementById('tagsSection');
+        const clearBtn = tagsSection.querySelector('.clear-btn');
+        
+        industries.forEach(ind => {
+            const tag = document.createElement('span');
+            tag.className = 'tag';
+            tag.textContent = ind;
+            tag.onclick = () => toggleTag(ind, tag);
+            tagsSection.insertBefore(tag, clearBtn);
+        });
+        
+        document.getElementById('searchInput').oninput = applyFilters;
+        document.getElementById('brokerFilter').onchange = applyFilters;
+        document.getElementById('ratingFilter').onchange = applyFilters;
+    }
+    
+    function toggleTag(industry, tagElement) {
+        const allTags = document.querySelectorAll('.tag');
+        
+        if (activeTag === industry) {
+            activeTag = null;
+            tagElement.classList.remove('active');
+        } else {
+            activeTag = industry;
+            allTags.forEach(t => t.classList.remove('active'));
+            tagElement.classList.add('active');
+        }
+        
+        applyFilters();
+    }
+    
+    function clearAll() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('brokerFilter').value = '';
+        document.getElementById('ratingFilter').value = '';
+        activeTag = null;
+        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        renderReports(allReports);
+    }
+    
+    function applyFilters() {
+        const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+        const broker = document.getElementById('brokerFilter').value;
+        const rating = document.getElementById('ratingFilter').value;
+        
+        const filtered = allReports.filter(report => {
+            if (keyword) {
+                const searchText = [
+                    report.title,
+                    report.subtitle,
+                    report.broker,
+                    report.industry,
+                    report.highlights.join(' '),
+                    (stocksData[report.id] || []).map(s => `${s.name} ${s.code}`).join(' ')
+                ].join(' ').toLowerCase();
+                
+                if (!searchText.includes(keyword)) return false;
+            }
+            
+            if (broker && report.broker !== broker) return false;
+            if (rating && report.rating !== rating) return false;
+            if (activeTag && report.industry !== activeTag) return false;
+            
+            return true;
+        });
+        
+        renderReports(filtered);
+    }
+    
+    function renderReports(reports) {
+        const grid = document.getElementById('reportsGrid');
+        document.getElementById('totalCount').textContent = allReports.length;
+        document.getElementById('filteredCount').textContent = reports.length;
+        
+        if (reports.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">🔍</div>
+                    <p>沒有符合條件的報告</p>
+                </div>
+            `;
+            return;
+        }
+        
+        grid.innerHTML = reports.map(report => {
+            const stocks = stocksData[report.id] || [];
+            const ratingClass = report.rating.includes('優於') ? 'positive' : 'neutral';
+            
+            return `
+                <div class="report-card" onclick="openModal('${report.id}')">
+                    <div class="card-header">
+                        <span class="card-broker">${report.broker}</span>
+                        <span class="card-date">${report.date}</span>
+                    </div>
+                    <h3 class="card-title">${report.title}</h3>
+                    <p class="card-subtitle">${report.subtitle || ''}</p>
+                    <span class="card-industry">${report.industry}</span>
+                    ${report.rating ? `
+                        <div class="card-rating">
+                            <span class="rating-label">產業評等：</span>
+                            <span class="rating-value ${ratingClass}">${report.rating}</span>
+                        </div>
+                    ` : ''}
+                    <div class="card-highlights">
+                        ${report.highlights.slice(0, 3).map(h => `
+                            <div class="highlight-item">${truncate(h, 50)}</div>
+                        `).join('')}
+                    </div>
+                    ${stocks.length > 0 ? `
+                        <div class="card-stocks">
+                            ${stocks.slice(0, 5).map(s => `
+                                <span class="stock-tag">${s.name}</span>
+                            `).join('')}
+                            ${stocks.length > 5 ? `<span class="stock-tag">+${stocks.length - 5}</span>` : ''}
+                        </div>
                     ` : ''}
                 </div>
-                <div class="result-item" style="border-left-color: #28a745;">
-                    <h4>📥 下載更新後的Excel檔案</h4>
-                    <div class="download-links">
-                        <a href="${API_URL}/download/system1" class="download-link" download>
-                            📊 研究報告資料庫
-                        </a>
-                        <a href="${API_URL}/download/system2" class="download-link" download>
-                            🔥 熱門事件報告
-                        </a>
+            `;
+        }).join('');
+    }
+    
+    function truncate(text, maxLength) {
+        if (!text) return '';
+        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+    }
+    
+    function openModal(reportId) {
+        const report = allReports.find(r => r.id === reportId);
+        if (!report) return;
+        
+        document.getElementById('modalBroker').textContent = report.broker;
+        document.getElementById('modalDate').textContent = report.date;
+        document.getElementById('modalIndustry').textContent = report.industry;
+        document.getElementById('modalTitle').textContent = report.title;
+        document.getElementById('modalSubtitle').textContent = report.subtitle || '';
+        
+        const details = reportDetails[reportId] || [];
+        const stocks = stocksData[reportId] || [];
+        const viewpoints = viewpointsData[reportId] || [];
+        
+        let bodyHTML = '';
+        
+        // 核心重點
+        if (report.highlights.length > 0) {
+            bodyHTML += `
+                <div class="modal-section">
+                    <h3 class="section-title">📌 核心重點</h3>
+                    <ul class="key-points-list">
+                        ${report.highlights.map(h => `<li>${h}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        // 焦點分析
+        if (details.length > 0) {
+            bodyHTML += `
+                <div class="modal-section">
+                    <h3 class="section-title">📊 焦點分析</h3>
+                    ${details.map(d => `
+                        <div class="viewpoint-card">
+                            <div class="viewpoint-title">${d.sectionTitle}</div>
+                            <div class="viewpoint-content">${d.content}</div>
+                            ${d.marketSize ? `<div style="margin-top:10px;color:#00d4ff;font-size:13px;">📈 ${d.marketSize}</div>` : ''}
+                            ${d.growthRate ? `<div style="color:#51cf66;font-size:13px;">📊 ${d.growthRate}</div>` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        // 個股評價
+        if (stocks.length > 0) {
+            bodyHTML += `
+                <div class="modal-section">
+                    <h3 class="section-title">📈 個股評價</h3>
+                    <div class="stocks-table-wrapper">
+                        <table class="stocks-table">
+                            <thead>
+                                <tr>
+                                    <th>公司</th>
+                                    <th>評等</th>
+                                    <th>收盤價</th>
+                                    <th>目標價</th>
+                                    <th>25F EPS</th>
+                                    <th>26F EPS</th>
+                                    <th>投資亮點</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${stocks.map(s => {
+                                    const ratingClass = s.rating === '買進' ? 'buy' : (s.rating === '持有' ? 'hold' : '');
+                                    return `
+                                        <tr>
+                                            <td>
+                                                <div class="stock-name">${s.name}</div>
+                                                <div class="stock-code">${s.code}</div>
+                                            </td>
+                                            <td><span class="stock-rating ${ratingClass}">${s.rating}</span></td>
+                                            <td>${s.price || '-'}</td>
+                                            <td>${s.target || '-'}</td>
+                                            <td>${s.eps25 || '-'}</td>
+                                            <td>${s.eps26 || '-'}</td>
+                                            <td>${s.highlight || '-'}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
                     </div>
-                    <p style="margin-top: 15px; color: #28a745; font-weight: 600;">
-                        ✨ Excel檔案已自動更新到資料夾!
-                    </p>
                 </div>
             `;
         }
-
-        function showError(message) {
-            document.getElementById('resultSection').innerHTML = `
-                <div class="result-item error">
-                    <h4>❌ 發生錯誤</h4>
-                    <p>${message}</p>
+        
+        // 券商觀點
+        if (viewpoints.length > 0) {
+            bodyHTML += `
+                <div class="modal-section">
+                    <h3 class="section-title">💡 券商觀點</h3>
+                    ${viewpoints.map(v => `
+                        <div class="viewpoint-card">
+                            <div class="viewpoint-title">${v.title || v.type}</div>
+                            <div class="viewpoint-content">${v.content}</div>
+                            ${v.picks.length > 0 ? `
+                                <div class="picks-row">
+                                    ${v.picks.map(p => `
+                                        <div class="pick-item">
+                                            <div class="pick-stock">⭐ ${p.stock}</div>
+                                            <div class="pick-reason">${p.reason}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                            ${v.risk ? `
+                                <div style="margin-top:15px;padding:10px;background:rgba(255,107,107,0.1);border-radius:8px;color:#ff6b6b;font-size:13px;">
+                                    ⚠️ 風險提醒：${v.risk}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
                 </div>
             `;
         }
-
-        function clearInput() {
-            document.getElementById('reportInput').value = '';
-            document.getElementById('resultSection').innerHTML = `
-                <div class="result-item">
-                    <h4>等待分析...</h4>
-                    <p>貼上報告文字後點擊「AI智能分析收錄」</p>
+        
+        // 分析師資訊
+        if (report.analyst) {
+            bodyHTML += `
+                <div class="modal-section">
+                    <h3 class="section-title">👤 分析師</h3>
+                    <div style="color:#ccc;">
+                        ${report.analyst}
+                        ${report.phone ? ` ｜ 📞 ${report.phone}` : ''}
+                        ${report.email ? ` ｜ 📧 ${report.email}` : ''}
+                    </div>
                 </div>
             `;
         }
+        
+        document.getElementById('modalBody').innerHTML = bodyHTML;
+        document.getElementById('modalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal(event) {
+        if (event && event.target !== document.getElementById('modalOverlay')) return;
+        document.getElementById('modalOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>
+```
 
-        // 頁面載入時檢查服務
-        window.addEventListener('load', () => {
-            checkServiceStatus();
-            // 每30秒檢查一次服務狀態
-            setInterval(checkServiceStatus, 30000);
-        });
-
-        // 支援Enter快捷鍵
-        document.getElementById('reportInput').addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'Enter') {
-                analyzeReport();
-            }
-        });
-    </script>
 </body>
 </html>
-
-
-
-
-
