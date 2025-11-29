@@ -196,14 +196,19 @@
         </div>
     </div>
     <script>
-        // 使用 jsDelivr CDN 解決 GitHub Pages CORS 問題
-        const BASE_URL = 'https://cdn.jsdelivr.net/gh/rexdashu168/rexdashu168.github.io@main/catchreport/';
-        const NEWS_FILE = BASE_URL + encodeURIComponent('外電綜合報導資料庫_完整珍藏版.xlsx');
-        const REPORTS_FILE = BASE_URL + encodeURIComponent('投資展望報告收集模板_更新版.xlsx');
-        const MEMO_FILE = BASE_URL + encodeURIComponent('研究報告資料庫_完全修正版_71篇.xlsx');
-        const MASTER_FILE = BASE_URL + encodeURIComponent('Rex產業研究資料庫_終極整合版_含概念股.xlsx');
+        // 檔案路徑設定
+        const NEWS_FILE = '外電綜合報導資料庫_完整珍藏版.xlsx';
+        const REPORTS_FILE = '投資展望報告收集模板_更新版.xlsx';
+        const MEMO_FILE = '研究報告資料庫_完全修正版_71篇.xlsx';
+        const MASTER_FILE = 'Rex產業研究資料庫_終極整合版_含概念股.xlsx';
 
 ```
+    async function fetchFile(fileName) {
+        const r = await fetch(fileName);
+        if (!r.ok) throw new Error('無法載入: ' + fileName + ' (HTTP ' + r.status + ')');
+        return await r.arrayBuffer();
+    }
+    
     let newsData = [], newsContent = {}, trendsData = [];
     let reportsData = [], reportDetails = {}, reportStocksData = {};
     let memoReports = [], memoTracking = {}, memoFinance = {}, memoProducts = {}, memoTimeline = [], memoIndustryTrends = [], memoAnalysts = {}, memoDetails = {};
@@ -230,8 +235,7 @@
     
     async function loadNewsData() {
         try {
-            const r = await fetch(NEWS_FILE); if (!r.ok) return;
-            const ab = await r.arrayBuffer();
+            const ab = await fetchFile(NEWS_FILE);
             const wb = XLSX.read(ab, {type:'array'});
             const s1 = wb.Sheets['報導總表'];
             if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
@@ -250,8 +254,7 @@
     
     async function loadReportsData() {
         try {
-            const r = await fetch(REPORTS_FILE); if (!r.ok) return;
-            const ab = await r.arrayBuffer();
+            const ab = await fetchFile(REPORTS_FILE);
             const wb = XLSX.read(ab, {type:'array'});
             const s1 = wb.Sheets['報告總覽'];
             if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
@@ -277,8 +280,7 @@
     
     async function loadMemoData() {
         try {
-            const r = await fetch(MEMO_FILE); if (!r.ok) return;
-            const ab = await r.arrayBuffer();
+            const ab = await fetchFile(MEMO_FILE);
             const wb = XLSX.read(ab, {type:'array'});
             const s1 = wb.Sheets['報告總表'];
             if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
@@ -320,8 +322,7 @@
     
     async function loadMasterData() {
         try {
-            const r = await fetch(MASTER_FILE); if (!r.ok) return;
-            const ab = await r.arrayBuffer();
+            const ab = await fetchFile(MASTER_FILE);
             const wb = XLSX.read(ab, {type:'array'});
             const s1 = wb.Sheets['主資料庫'];
             if (s1) XLSX.utils.sheet_to_json(s1).forEach(r => {
