@@ -196,10 +196,12 @@
         </div>
     </div>
     <script>
-        const NEWS_FILE = '外電綜合報導資料庫_完整珍藏版.xlsx';
-        const REPORTS_FILE = '投資展望報告收集模板_更新版.xlsx';
-        const MEMO_FILE = '研究報告資料庫_完全修正版_71篇.xlsx';
-        const MASTER_FILE = 'Rex產業研究資料庫_終極整合版_含概念股.xlsx';
+        // 使用 jsDelivr CDN 解決 GitHub Pages CORS 問題
+        const BASE_URL = 'https://cdn.jsdelivr.net/gh/rexdashu168/rexdashu168.github.io@main/catchreport/';
+        const NEWS_FILE = BASE_URL + encodeURIComponent('外電綜合報導資料庫_完整珍藏版.xlsx');
+        const REPORTS_FILE = BASE_URL + encodeURIComponent('投資展望報告收集模板_更新版.xlsx');
+        const MEMO_FILE = BASE_URL + encodeURIComponent('研究報告資料庫_完全修正版_71篇.xlsx');
+        const MASTER_FILE = BASE_URL + encodeURIComponent('Rex產業研究資料庫_終極整合版_含概念股.xlsx');
 
 ```
     let newsData = [], newsContent = {}, trendsData = [];
