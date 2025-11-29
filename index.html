@@ -206,14 +206,10 @@
 ```
     // 輔助函式 - 載入檔案
     async function fetchFile(url) {
+        console.log('正在載入:', url);
         const r = await fetch(url);
-        if (!r.ok) throw new Error('HTTP ' + r.status + ' - 找不到檔案: ' + url);
-        return await r.arrayBuffer();
-    }
-    
-    async function fetchFile(fileName) {
-        const r = await fetch(fileName);
-        if (!r.ok) throw new Error('無法載入: ' + fileName + ' (HTTP ' + r.status + ')');
+        if (!r.ok) throw new Error('無法載入 ' + url + ' (HTTP ' + r.status + ')');
+        console.log('載入成功:', url);
         return await r.arrayBuffer();
     }
     
@@ -227,17 +223,29 @@
     let searchIndex = { companies: {}, tags: {}, brokers: {}, stocks: {}, industries: {} };
     
     window.onload = async function() {
+        const status = document.getElementById('loadingOverlay');
         try {
-            await Promise.all([loadNewsData(), loadReportsData(), loadMemoData(), loadMasterData()]);
+            status.innerHTML = '<div class="loading-spinner"></div><p>正在載入外電資料...</p>';
+            await loadNewsData();
+            
+            status.innerHTML = '<div class="loading-spinner"></div><p>正在載入展望報告...</p>';
+            await loadReportsData();
+            
+            status.innerHTML = '<div class="loading-spinner"></div><p>正在載入Call Memo...</p>';
+            await loadMemoData();
+            
+            status.innerHTML = '<div class="loading-spinner"></div><p>正在載入主資料庫...</p>';
+            await loadMasterData();
+            
             buildSearchIndex(); buildFilters(); buildHotTags(); updateCounts(); renderCurrentDB();
-            document.getElementById('loadingOverlay').classList.add('hidden');
+            status.classList.add('hidden');
             const si = document.getElementById('mainSearchInput');
             si.addEventListener('input', onSearchInput);
             si.addEventListener('focus', () => showSuggestions());
             document.addEventListener('click', e => { if (!e.target.closest('.main-search')) hideSuggestions(); });
         } catch (e) {
-            console.error(e);
-            document.getElementById('loadingOverlay').innerHTML = '<div style="text-align:center;color:#d64545;"><h2>載入失敗</h2><p>'+e.message+'</p><button onclick="location.reload()" style="margin-top:20px;padding:12px 30px;background:#c96442;border:none;border-radius:25px;color:#fff;cursor:pointer;">重新載入</button></div>';
+            console.error('載入錯誤:', e);
+            status.innerHTML = '<div style="text-align:center;color:#d64545;padding:20px;"><h2>載入失敗</h2><p style="margin:15px 0;">'+e.message+'</p><p style="font-size:12px;color:#888;">請確認檔案是否正確上傳到 GitHub</p><button onclick="location.reload()" style="margin-top:20px;padding:12px 30px;background:#c96442;border:none;border-radius:25px;color:#fff;cursor:pointer;">重新載入</button></div>';
         }
     };
     
